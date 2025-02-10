@@ -1,4 +1,5 @@
 export type IUser = {
   isAuthenticated: boolean,
-  username: string
+  username: string,
+  token?: string
 }
