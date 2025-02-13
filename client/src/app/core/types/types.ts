@@ -3,3 +3,7 @@ export type IUser = {
   username: string,
   token?: string
 }
+
+export type  IWhitelabel = {
+  whitelabelId: string;
+}
