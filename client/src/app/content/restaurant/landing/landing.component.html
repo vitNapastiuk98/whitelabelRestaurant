@@ -1,1 +1,43 @@
-<p>landing works!</p>
+
+<div class="slideshow-container">
+  <div class="slide" *ngFor="let slide of slides; let i = index"
+       [class.active]="i === currentSlideIndex">
+    <ng-container [ngSwitch]="slide.type">
+      <!-- Image Slide -->
+      <img
+        *ngSwitchCase="'image'"
+        [src]="slide.src"
+        [alt]="slide.alt"
+      />
+      <!-- Video Slide -->
+      <video
+        *ngSwitchCase="'video'"
+        [src]="slide.src"
+        autoplay
+        muted
+        loop
+      >
+        Your browser does not support the video tag.
+      </video>
+    </ng-container>
+
+    <!-- Optional overlay text -->
+    <div class="slide-text" *ngIf="slide.title">
+      <h1 [innerHTML]="slide.title"></h1>
+    </div>
+  </div>
+
+  <!-- Example prev/next buttons -->
+  <button class="prev-button" (click)="prevSlide()">&#10094;</button>
+  <button class="next-button" (click)="nextSlide()">&#10095;</button>
+
+  <!-- Dots/Indicators -->
+  <div class="dots">
+    <span
+      *ngFor="let slide of slides; let i = index"
+      class="dot"
+      [class.active]="i === currentSlideIndex"
+      (click)="goToSlide(i)"
+    ></span>
+  </div>
+</div>

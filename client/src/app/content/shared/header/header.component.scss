@@ -1,0 +1,46 @@
+.header-container {
+  display: flex;
+  /* Stack rows vertically */
+  flex-direction: column;
+  width: 100%;
+
+  /* TOP ROW STYLES */
+  .header-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0.5rem 2rem;
+    background-color: #fff; /* adjust if desired */
+
+    .header-left-icons a {
+      margin-right: 1rem;
+      color: #333;
+      font-size: 1.2rem; /* icon size */
+      text-decoration: none;
+    }
+
+    /* Center the logo by making it flex: 1 and using justify-content.
+       The left icons and language select have fixed widths, so the logo stays centered. */
+    .header-center-logo {
+      display: flex;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .header-right-lang {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+
+  /* SECOND ROW: NAV BAR */
+  .header-nav-row {
+    background-color: #f8f8f8;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: center; /* centers the entire <app-sections> content */
+    padding: 0.5rem 0;
+  }
+}

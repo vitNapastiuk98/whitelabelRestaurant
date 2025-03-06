@@ -1,0 +1,28 @@
+<script src="language-selector.component.ts"></script>
+<div class="lang-selector" [formGroup]="langForm">
+  <!-- Visible “button” area -->
+  <div class="lang-selected" (click)="toggleDropdown()">
+    <!-- Show the selected flag -->
+    <img
+      [src]="currentFlag"
+      [alt]="currentLabel"
+      class="flag-icon"
+    />
+    <!-- Show the selected language code, e.g. "ITA" -->
+    <span class="lang-label">{{ currentShortLabel }}</span>
+    <!-- Down caret icon (use any icon set or even a Unicode character ▼) -->
+    <i class="fas fa-caret-down"></i>
+  </div>
+
+  <!-- The dropdown list -->
+  <ul class="lang-dropdown" *ngIf="dropdownOpen">
+    <li
+      *ngFor="let lang of languages"
+      (click)="selectLanguage(lang)"
+      class="lang-option"
+    >
+      <img [src]="lang.flag" [alt]="lang.label" class="flag-icon" />
+      <span>{{ lang.label }}</span>
+    </li>
+  </ul>
+</div>

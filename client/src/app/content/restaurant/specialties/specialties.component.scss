@@ -1,0 +1,79 @@
+.specialties-container {
+  background-color: #2f4f3f;
+  padding: 3rem 2rem;
+  color: #fff; /* White text on dark green */
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+    em {
+      font-style: italic;
+    }
+  }
+
+  .subtitle {
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    color: #ececec;
+  }
+
+  .dishes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem; /* space between cards */
+  }
+
+  .dish-card {
+    background-color: #2f4f3f; /* same as container or slightly darker? */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+
+    .dish-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .dish-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+
+      .dish-name {
+        font-size: 1rem;
+        font-weight: 600;
+      }
+
+      .dish-price {
+        font-size: 1rem;
+        font-weight: normal;
+        margin-left: 1rem;
+      }
+
+      .arrow-box {
+        width: 32px;
+        height: 32px;
+        border: 1px solid #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 2px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        i {
+          font-size: 0.9rem;
+        }
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.2);
+        }
+      }
+    }
+  }
+}

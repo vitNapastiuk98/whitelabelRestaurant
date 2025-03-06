@@ -1,1 +1,60 @@
-<p>menu works!</p>
+<div class="menu-page-container">
+  <h1>Menù</h1>
+  <p class="menu-intro">
+    Assapora un'armonia perfetta di sapori, dove ogni dettaglio è curato con
+    attenzione per deliziare il tuo palato.
+  </p>
+
+  <!-- Category Buttons -->
+  <div class="category-buttons">
+    @for ( cat of categories(); let i = $index; track cat.name) {
+      <app-menu-category
+        [name]="cat.name"
+        [isActive]="i === selectedCategoryIndex()"
+        (categorySelected)="selectCategory(i)"
+      ></app-menu-category>
+    }
+  </div>
+
+  <!-- Main layout: Items list on the left, detail on the right -->
+  <div class="menu-content">
+    <div class="items-list">
+      @if (selectedCategory) {
+        @for ( item of selectedCategory.items; track item.name) {
+          <app-menu-item
+            [item]="item"
+            (itemSelected)="selectItem($event)"
+          ></app-menu-item>
+        }
+      }
+    </div>
+
+    <!-- Display selected item details if any -->
+    @if (selectedItem()) {
+      <div class="item-detail">
+        @if (selectedItem()?.photo) {
+          <img
+            [src]="selectedItem()?.photo"
+            [alt]="selectedItem()?.name"
+            class="detail-photo"
+          />
+        }
+
+        <h3>
+          {{ selectedItem()?.name }}
+          <span class="detail-price">€ {{ selectedItem()?.price?.toFixed(2) }}</span>
+        </h3>
+
+        @if (selectedItem()?.description) {
+          <p>{{ selectedItem()?.description }}</p>
+        }
+
+        @if (selectedItem()?.allergens) {
+          <p>
+            <strong>Allergeni:</strong> {{ selectedItem()?.allergens }}
+          </p>
+        }
+      </div>
+    }
+  </div>
+</div>

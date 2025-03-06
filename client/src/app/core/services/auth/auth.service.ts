@@ -20,7 +20,7 @@ export interface IUser {
 export class AuthService {
   // Private writable signal for authentication state.
   private user$: WritableSignal<IUser> = signal({
-    isAuthenticated: false,
+    isAuthenticated: true,
     username: '',
     token: undefined,
   });

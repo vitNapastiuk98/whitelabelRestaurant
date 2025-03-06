@@ -1,0 +1,108 @@
+<div class="contact-container">
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    <h1>Contattaci</h1>
+
+    <div class="info-block">
+      <strong>Indirizzo</strong>
+      <p>{{ address }}</p>
+    </div>
+
+    <div class="info-block">
+      <strong>Tel.</strong>
+      <p>{{ phone }}</p>
+    </div>
+
+    <div class="info-block">
+      <strong>Email</strong>
+      <p>{{ email }}</p>
+    </div>
+
+    <div class="info-block">
+      <strong>Orari</strong>
+      @for ( oh of openingHours; track oh.day) {
+        <div class="hour-row">
+          <div class="day">{{ oh.day }}</div>
+          <div class="time">{{ oh.hours }}</div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel">
+    @if (contactState() === 'idle') {
+      <!-- CONTACT FORM -->
+      <form class="contact-form">
+        <label>
+          Nome & Cognome*
+          <input
+            type="text"
+            [value]="fullName()"
+            (input)="fullName.set($any($event.target).value)"
+          />
+        </label>
+
+        <label>
+          E-Mail*
+          <input
+            type="email"
+            [value]="userEmail()"
+            (input)="userEmail.set($any($event.target).value)"
+          />
+        </label>
+
+        <label>
+          Telefono*
+          <input
+            type="tel"
+            [value]="userPhone()"
+            (input)="userPhone.set($any($event.target).value)"
+          />
+        </label>
+
+        <label>
+          Messaggio
+          <textarea
+            rows="4"
+            [value]="message()"
+            (input)="message.set($any($event.target).value)"
+          ></textarea>
+        </label>
+
+        <div class="consent-box">
+          <label>
+            <input
+              type="checkbox"
+              [checked]="consent()"
+              (change)="consent.set($any($event.target).checked)"
+            />
+            Autorizzo ad archiviare ed utilizzare i miei dati...
+          </label>
+        </div>
+
+        <button type="button" (click)="onSubmit()" class="submit-btn">
+          Invia Richiesta
+        </button>
+      </form>
+    }
+    @if (contactState() === 'loading') {
+      <!-- LOADING SPINNER -->
+      <div class="loading-state">
+        <h2>Invio in corso...</h2>
+        <div class="spinner"></div>
+      </div>
+    }
+    @if (contactState() === 'success') {
+      <!-- SUCCESS STATE -->
+      <div class="success-state">
+        <div class="check-circle">
+          <i class="fas fa-check"></i>
+        </div>
+        <h3>Operazione avvenuta con successo!</h3>
+        <p>Grazie per il suo messaggio. Il nostro team si porrà in contatto con lei al più presto possibile.</p>
+        <a href="#" (click)="contactState.set('idle')">continua</a>
+      </div>
+    }
+  </div>
+</div>

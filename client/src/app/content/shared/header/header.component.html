@@ -1,0 +1,25 @@
+<header class="header-container">
+  <!-- TOP ROW -->
+  <div class="header-top-row">
+    <!-- LEFT ICONS -->
+    <div class="header-left-icons">
+     <ng-content></ng-content>
+    </div>
+
+    <!-- CENTER LOGO -->
+    <div class="header-center-logo">
+      <app-logo></app-logo>
+    </div>
+
+    <!-- RIGHT LANGUAGE SELECT -->
+    <div class="header-right-lang">
+      <!-- Example: Custom language selector component (with flags) -->
+      <app-language-selector></app-language-selector>
+    </div>
+  </div>
+
+  <!-- SECOND ROW: NAVIGATION -->
+  <div class="header-nav-row">
+    <app-navigation [navigationList]="navigationList()"></app-navigation>
+  </div>
+</header>

@@ -1,0 +1,19 @@
+.category-button {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid #333;
+  background-color: #fff;
+  cursor: pointer;
+  text-transform: capitalize;
+  transition: background-color 0.3s;
+  font-size: 1rem;
+
+  &.active {
+    background-color: #2f4f3f; /* Example green from your design */
+    color: #fff;
+  }
+
+  &:hover {
+    background-color: #333;
+    color: #fff;
+  }
+}

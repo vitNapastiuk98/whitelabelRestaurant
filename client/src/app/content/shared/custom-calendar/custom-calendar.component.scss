@@ -1,0 +1,42 @@
+.calendar-container {
+  max-width: 300px;
+  margin: 2rem auto;
+
+  .selected-date {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+  }
+}
+
+/* Override the popup styles */
+::ng-deep .mat-datepicker-content .mat-calendar {
+  background-color: #f3f3ee; /* custom background */
+  color: #333; /* text color */
+  font-family: 'Arial', sans-serif;
+}
+
+/* Example: style selected date */
+::ng-deep .mat-calendar-body-selected {
+  background-color: #2f4f3f !important; /* your green */
+  color: #fff !important;
+}
+
+/* Example: style the "today" indicator */
+::ng-deep .mat-calendar-body-today:not(.mat-calendar-body-selected) {
+  border: 2px solid #2f4f3f !important;
+}
+
+/* Adjust header color */
+::ng-deep .mat-calendar-header {
+  background-color: #2f4f3f;
+  color: #fff;
+}
+
+/* Optional: style day names row, arrows, etc. */
+::ng-deep .mat-calendar-controls .mat-calendar-previous-button,
+::ng-deep .mat-calendar-controls .mat-calendar-next-button {
+  color: #fff; /* arrow color */
+}
+
+/* etc. */

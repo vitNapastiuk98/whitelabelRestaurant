@@ -17,3 +17,176 @@ html {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* --------------------------------------------
+   1. VARIABLES
+   -------------------------------------------- */
+$color-primary: #2F423B;   /* Dark green */
+$color-secondary: #5B0E0E; /* Dark red */
+$color-bg: #FAF9F7;        /* Off-white background */
+$color-text: #333333;      /* Main text color */
+$color-heading: #2F423B;   /* Heading color (same as primary or a variant) */
+
+$font-family-base: 'Open Sans', sans-serif;
+$font-family-heading: 'Playfair Display', serif;
+
+/* Spacing scale (example) */
+$space-xs: 0.25rem;  /* 4px  */
+$space-sm: 0.5rem;   /* 8px  */
+$space-md: 1rem;     /* 16px */
+$space-lg: 2rem;     /* 32px */
+$space-xl: 3rem;     /* 48px */
+
+/* --------------------------------------------
+   2. GLOBAL RESETS
+   -------------------------------------------- */
+
+/* Use box-sizing: border-box for consistent sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin/padding from HTML & body */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: $font-family-base;
+  font-size: 16px;
+  line-height: 1.5;
+  background-color: $color-bg;
+  color: $color-text;
+}
+
+/* Ensure images and media scale properly */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* --------------------------------------------
+   3. TYPOGRAPHY
+   -------------------------------------------- */
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  margin-bottom: $space-md;
+  font-family: $font-family-heading;
+  color: $color-heading;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 2rem;
+}
+h2 {
+  font-size: 1.75rem;
+}
+h3 {
+  font-size: 1.5rem;
+}
+
+/* Paragraphs */
+p {
+  margin-top: 0;
+  margin-bottom: $space-md;
+  font-family: $font-family-base;
+}
+
+/* Links */
+a {
+  color: $color-secondary;
+  text-decoration: none;
+  transition: color 0.3s ease;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}
+
+/* --------------------------------------------
+   4. LAYOUT & UTILITIES
+   -------------------------------------------- */
+
+/* A basic container to center content and limit width */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: $space-md;
+  padding-right: $space-md;
+}
+
+/* Section spacing: top/bottom padding */
+.section {
+  padding-top: $space-lg;
+  padding-bottom: $space-lg;
+}
+
+
+/* --------------------------------------------
+   5. COMPONENTS
+   -------------------------------------------- */
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-family: $font-family-base;
+  font-size: 1rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Primary button style */
+.btn-primary {
+  background-color: $color-primary;
+  color: #fff;
+
+  &:hover {
+    background-color: darken($color-primary, 10%);
+  }
+}
+
+/* Secondary button style */
+.btn-secondary {
+  background-color: $color-secondary;
+  color: #fff;
+
+  &:hover {
+    background-color: darken($color-secondary, 10%);
+  }
+}
+
+/* Cards (for menu items, specialties, etc.) */
+.card {
+  background-color: #fff;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(#000, 0.1);
+  margin-bottom: $space-md;
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+}
+
+.card-content {
+  padding: $space-md;
+}
+

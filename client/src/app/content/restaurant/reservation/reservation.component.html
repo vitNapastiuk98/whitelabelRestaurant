@@ -1,1 +1,146 @@
-<p>reservation works!</p>
+<div class="reservation-container">
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    <h1>Prenota il tuo tavolo per<br>un’esperienza <em>memorabile</em>.</h1>
+
+    <div class="opening-hours">
+      <h3>Orari</h3>
+      @for ( oh of openingHours; track oh.day) {
+        <div class="hour-row">
+          <div class="day">{{ oh.day }}</div>
+          <div class="time">{{ oh.hours }}</div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel">
+    <!-- @if blocks for different states -->
+    @if (reservationState() === 'idle') {
+      <!-- The form -->
+      <form class="reservation-form">
+        <label>
+          Nome* <input type="text" [value]="name()" (input)="name.set($any($event.target).value)" />
+        </label>
+
+        <label>
+          E-Mail <input type="email" [value]="email()" (input)="email.set($any($event.target).value)" />
+        </label>
+
+        <label>
+          Telefono* <input type="tel" [value]="phone()" (input)="phone.set($any($event.target).value)" />
+        </label>
+
+        <div class="row-3fields">
+          <!-- People select -->
+          <label>
+            N. Persone
+            <select [value]="people()" (change)="people.set($any($event.target).value)">
+              <option>1 Persona</option>
+              <option>2 Persone</option>
+              <option>3 Persone</option>
+              <option>4 Persone</option>
+              <option>5 Persone</option>
+              <!-- ... -->
+            </select>
+          </label>
+
+          <!-- Date field / opens custom-calendar -->
+          <label>
+            Data
+            <input
+              type="text"
+              [value]="date()"
+              placeholder="dd/mm/yy"
+              readonly
+              (click)="toggleCalendar()"
+            />
+          </label>
+
+          <!-- Time field (could also be a select or time picker) -->
+          <label>
+            Orario
+            <select [value]="time()" (change)="time.set($any($event.target).value)">
+              <option value="">scegli orario</option>
+              <option>10:00</option>
+              <option>11:00</option>
+              <option>12:00</option>
+              <option>19:00</option>
+              <option>20:00</option>
+              <option>21:00</option>
+            </select>
+          </label>
+        </div>
+
+        <!-- Consent -->
+        <div class="consent-box">
+          <label>
+            <input
+              type="checkbox"
+              [checked]="consent()"
+              (change)="consent.set($any($event.target).checked)"
+            />
+            Autorizzo ad archiviare ed utilizzare i miei dati...
+          </label>
+        </div>
+
+        <!-- Submit button -->
+        <button type="button" class="submit-btn" (click)="onSubmit()">
+          Prenota Ora
+        </button>
+      </form>
+    }
+    @if (reservationState() === 'loading') {
+      <!-- Loading State -->
+      <div class="loading-state">
+        <h2>Invio in corso...</h2>
+        <!-- Simple loading spinner or progress circle -->
+        <div class="spinner"></div>
+      </div>
+    }
+    @if (reservationState() === 'success') {
+      <!-- Success State -->
+      <div class="success-state">
+        <div class="check-circle">
+          <i class="fas fa-check"></i>
+        </div>
+        <h3>Operazione avvenuta con successo!</h3>
+        <p>A breve riceverai una mail di conferma con i dettagli della tua prenotazione.</p>
+        <p>In caso di mancata conferma entro 24h, ti preghiamo di contattarci via mail o telefono.</p>
+        <a href="#" (click)="reservationState.set('idle')">continua</a>
+      </div>
+    }
+
+    <!-- CALENDAR OVERLAY (custom date picker) -->
+    @if (showCalendar()) {
+      <div class="calendar-overlay" (click)="toggleCalendar()">
+        <div class="calendar-popup" (click)="$event.stopPropagation()">
+          <div class="calendar-header">
+            <button (click)="prevMonth()">&#10094;</button>
+            <div class="month-year">
+              <!-- e.g. "Gennaio 2025" -->
+              {{ getMonthName(currentMonth()) }} {{ currentYear() }}
+            </div>
+            <button (click)="nextMonth()">&#10095;</button>
+          </div>
+
+          <div class="calendar-days">
+            <!-- day-of-week header row -->
+            @for ( d of ['Lun','Mar','Mer','Gio','Ven','Sab','Dom']; track d) {
+              <div class="calendar-day-name">
+                {{ d }}
+              </div>
+            }
+            <!-- We won't shift for day-of-week start for simplicity, but you could do so -->
+            @for ( day of daysInMonth(); track day) {
+              <div class="calendar-day" (click)="selectDay(day)">
+                {{ day }}
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

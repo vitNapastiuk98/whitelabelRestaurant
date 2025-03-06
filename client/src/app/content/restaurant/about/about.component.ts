@@ -2,7 +2,8 @@ import {Component, signal} from '@angular/core';
 
 @Component({
   selector: 'app-about',
-  imports: [],
+  imports: [
+  ],
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss'
 })

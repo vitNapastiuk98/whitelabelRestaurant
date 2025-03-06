@@ -1,0 +1,58 @@
+.lang-selector {
+  position: relative;
+  display: inline-block; /* So it can be placed in a row like your screenshot */
+
+  .lang-selected {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+
+    .flag-icon {
+      width: 24px;
+      height: auto;
+      margin-right: 0.5rem;
+    }
+
+    .lang-label {
+      font-weight: 500;
+      margin-right: 0.25rem;
+    }
+
+    i {
+      /* Down caret style – if using Font Awesome, ensure it's included */
+      font-size: 0.8rem;
+      margin-left: 0.25rem;
+    }
+  }
+
+  .lang-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: -20%;
+    list-style: none;
+    margin: 0;
+    padding: 0.25rem 0;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    z-index: 1000; /* So it appears above other elements */
+
+    .lang-option {
+      display: flex;
+      align-items: center;
+      padding: 0.4rem 1rem;
+      cursor: pointer;
+      white-space: nowrap;
+
+      &:hover {
+        background: #f0f0f0;
+      }
+
+      .flag-icon {
+        width: 20px;
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}

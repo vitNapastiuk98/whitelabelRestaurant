@@ -48,7 +48,7 @@ app.use(cors());
 // Mount the API endpoints.
 app.use(apiApp);
 
-// Serve static assets from the "client" folder.
+// Serve static public from the "client" folder.
 app.use(express.static(path.join(__dirname, '../../client')));
 
 // Catch-all route for client-side rendering using the separated client controller.

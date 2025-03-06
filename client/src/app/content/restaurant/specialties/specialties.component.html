@@ -1,0 +1,28 @@
+<div class="specialties-container">
+  <!-- Page background and layout container -->
+
+  <!-- Title & Subtitle -->
+  <h1>Le Nostre <em>Specialità</em></h1>
+  <p class="subtitle">
+    lasciati conquistare dai sapori unici delle nostre specialità italiane
+  </p>
+
+  <!-- Grid of dishes -->
+  <div class="dishes-grid">
+    @for ( dish of dishes(); track dish.name) {
+      <div class="dish-card">
+        <img [src]="dish.image" [alt]="dish.name" class="dish-image" />
+
+        <div class="dish-info">
+          <div class="dish-name">{{ dish.name }}</div>
+          <div class="dish-price">€ {{ dish.price.toFixed(2) }}</div>
+
+          <!-- Arrow icon in a small box (Font Awesome or your icon set) -->
+          <div class="arrow-box">
+            <i class="fas fa-arrow-up-right-from-square"></i>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
