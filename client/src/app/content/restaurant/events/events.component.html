@@ -5,7 +5,7 @@
   </p>
 
   <div class="events-grid">
-    @for ( event of events(); track event.name) {
+    @for ( event of events(); track $index) {
       <div class="event-card">
         <img [src]="event.photo" [alt]="event.name" class="event-photo" />
 

@@ -1,0 +1,49 @@
+<div class="modal-header">
+  <h2 mat-dialog-title>List of Items</h2>
+  <button mat-dialog-close mat-button class="close-btn" (click)="closeModal()">X</button>
+</div>
+
+<mat-dialog-content>
+  <!-- Form with items array -->
+  <form [formGroup]="form">
+    @for (group of items.controls;let i = $index; track i) {
+    <div
+      class="item-row"
+      [formGroup]="getFormGroup(group)"
+    >
+      <div class="left-col">
+        <!-- File upload CVA on the left -->
+        <app-file-upload-cva formControlName="file"></app-file-upload-cva>
+      </div>
+      <div class="right-col">
+        <!-- Two text inputs on the right -->
+       <mat-form-field>
+         <mat-label>
+           Text 1
+         </mat-label>
+         <input matInput type="text" formControlName="text1" />
+
+       </mat-form-field>
+        <mat-form-field>
+          <mat-label>
+            Text 2
+          </mat-label>
+          <input matInput type="text" formControlName="text2" />
+
+        </mat-form-field>
+      </div>
+
+      <!-- Optional: remove item button -->
+      <button mat-button class="remove-btn" type="button" (click)="removeItem(i)">Remove</button>
+    </div>
+    }
+
+    <!-- Optional: Add new item button -->
+    <button mat-button class="add-btn" type="button" (click)="addItem()">Add Item</button>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button matDialogClose (click)="onCancel()">Cancel</button>
+  <button mat-button [mat-dialog-close]="true"  (click)="onConfirm()">Confirm</button>
+</mat-dialog-actions>

@@ -1,0 +1,95 @@
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  h2 {
+    margin: 0;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+}
+
+.modal-content {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+
+  .item-row {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    gap: 1rem;
+
+    .left-col {
+      width: 200px; // match your CVA container size
+    }
+
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      label {
+        display: flex;
+        flex-direction: column;
+        font-weight: 500;
+
+        input {
+          margin-top: 0.25rem;
+          padding: 0.5rem;
+        }
+      }
+    }
+
+    .remove-btn {
+      background-color: #d9534f;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 0.75rem;
+      cursor: pointer;
+      border-radius: 4px;
+      height: fit-content;
+      align-self: center;
+    }
+  }
+
+  .add-btn {
+    background-color: #5bc0de;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+
+  .cancel-btn {
+    background-color: #aaa;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .confirm-btn {
+    background-color: #2f4f3f;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+}

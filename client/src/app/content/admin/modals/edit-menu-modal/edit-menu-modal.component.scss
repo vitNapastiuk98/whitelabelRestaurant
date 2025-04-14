@@ -1,0 +1,101 @@
+.menu-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .top-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      label {
+        font-weight: 500;
+      }
+      input {
+        margin-top: 0.25rem;
+        padding: 0.5rem;
+      }
+    }
+  }
+
+  .category-tabs {
+    display: flex;
+    gap: 0.5rem;
+
+    button {
+      background-color: #eee;
+      border: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      &.active {
+        background-color: #2f4f3f;
+        color: #fff;
+      }
+    }
+  }
+
+  .items-list {
+    .item-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+
+      label {
+        display: flex;
+        flex-direction: column;
+        font-weight: 500;
+
+        input {
+          margin-top: 0.25rem;
+          padding: 0.5rem;
+          width: 100%;
+        }
+      }
+
+      .remove-btn {
+        background-color: #d9534f;
+        color: #fff;
+        border: none;
+        padding: 0.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    }
+
+    .add-item-btn {
+      background-color: #5bc0de;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  }
+}
+
+/* Modal header */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+
+  .save-btn {
+    background-color: #2f4f3f;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+}

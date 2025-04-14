@@ -190,3 +190,17 @@ a {
   padding: $space-md;
 }
 
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  // or use grid, etc.
+}
+
+.mat-dialog-container {
+  width: 80% !important;
+  max-width: 1000px;
+  max-height: 80vh;
+  margin: 0 auto;
+}

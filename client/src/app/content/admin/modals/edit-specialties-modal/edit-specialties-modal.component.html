@@ -1,0 +1,38 @@
+<!-- Modal Header -->
+<div class="modal-header">
+  <h2 mat-dialog-title>Edit Specialties</h2>
+  <button mat-button mat-dialog-close  (click)="close()">X</button>
+</div>
+
+<!-- Main Form Content -->
+<mat-dialog-content [formGroup]="form" class="specialties-form">
+  @for ( specCtrl of specialtiesArray.controls; let i = $index; track i) {
+    <div class="specialty-row" [formGroup]="getFormGroup(specCtrl)">
+      <div class="photo-field">
+        <app-file-upload-cva formControlName="photo" accept="image/*"></app-file-upload-cva>
+      </div>
+      <div class="details-field">
+        <mat-form-field>
+          <mat-label>
+            Name
+          </mat-label>
+          <input matInput type="text" formControlName="name" />
+
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>
+            Menu Link
+          </mat-label>
+          <input matInput type="text" formControlName="menuLink" placeholder="/menu" />
+
+        </mat-form-field>
+      </div>
+    </div>
+  }
+</mat-dialog-content>
+
+<!-- Modal Footer -->
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close class="cancel-btn" (click)="close()">Cancel</button>
+  <button mat-button [mat-dialog-close]="true" (click)="save()">Confirm</button>
+</mat-dialog-actions>

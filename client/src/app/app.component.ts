@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
       .subscribe((event: NavigationEnd) => {
         const url = event.urlAfterRedirects;
         // If URL starts with '/admin' and user is authenticated, set signal to true
+        console.log(url, this.clientService.isAuthenticated());
         if (url.startsWith('/admin') && this.clientService.isAuthenticated()) {
           this.isAdminRoutes.set(true);
         } else {

@@ -1,1 +1,17 @@
-<p>content works!</p>
+<div class="admin-content-container">
+  <h1>Content Management</h1>
+  <p>Select the section you want to edit:</p>
+
+  <div class="content-list">
+    @for ( item of contentItems(); track item.label) {
+      <div class="content-item">
+        <div class="content-header">
+          <h2>{{ item.label }}</h2>
+          <button (click)="openEditModal(item)">Edit</button>
+        </div>
+        <!-- Dynamically render the view component -->
+        <ng-container *ngComponentOutlet="item.viewComponent"></ng-container>
+      </div>
+    }
+  </div>
+</div>

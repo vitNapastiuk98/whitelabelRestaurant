@@ -1,0 +1,36 @@
+<div
+  class="file-upload-container"
+  [class.disabled]="disabled"
+  (click)="onSelectFile()"
+>
+  @if (previewData) {
+    <img
+      [src]="previewData"
+      alt="Preview"
+      class="preview"
+    />
+
+  }
+
+  @if (!previewData) {
+    @if (fileName && !isImageFile) {
+      <div class="file-name">
+        <i class="fas fa-file-alt"></i>
+        <span>{{ fileName }}</span>
+      </div>
+    }
+
+    @if (!fileName || isImageFile) {
+      <div class="placeholder"></div>
+    }
+  }
+
+  <!-- Hidden file input -->
+  <input
+    #fileInput
+    type="file"
+    [attr.accept]="accept()"
+    (change)="onFileSelected($event)"
+    hidden
+  />
+</div>

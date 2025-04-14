@@ -1,0 +1,66 @@
+<!-- Modal header -->
+<div class="modal-header">
+  <h2 mat-dialog-title> Edit Events</h2>
+  <button mat-button mat-dialog-close class="close-btn" (click)="close()">X</button>
+</div>
+
+<!-- Title & Subtitle -->
+<mat-dialog-content [formGroup]="form" class="events-form">
+  <mat-form-field>
+    <mat-label>
+      Title
+    </mat-label>
+    <input matInput type="text" formControlName="title" />
+
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>
+      Subtitle
+    </mat-label>
+    <input type="text" formControlName="subtitle" />
+  </mat-form-field>
+
+  <!-- Events List -->
+  <div class="events-list">
+    @for ( group of events.controls; let i = $index; track i) {
+      <div class="event-item" [formGroup]="getFormGroup(group)">
+        <!-- Photo (FileUploadCVA) -->
+        <app-file-upload-cva formControlName="photo"></app-file-upload-cva>
+
+        <div class="text-fields">
+          <mat-form-field>
+            <mat-label>
+              Event Title
+            </mat-label>
+            <input matInput type="text" formControlName="title" />
+
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>
+              Description
+            </mat-label>
+            <textarea matInput formControlName="description"></textarea>
+
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>
+              Date
+            </mat-label>
+            <input matInput type="text" formControlName="date" placeholder="e.g. 21/04/2025" />
+
+          </mat-form-field>
+        </div>
+
+        <button mat-button type="button" class="remove-btn" (click)="removeEvent(i)">-</button>
+      </div>
+    }
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="true" (click)="save()">Save</button>
+</mat-dialog-actions>
+
+

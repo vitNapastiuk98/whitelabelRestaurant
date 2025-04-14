@@ -55,7 +55,7 @@ export const routes: Routes = [
         loadComponent: () => import('./content/admin/content/content.component').then(m => m.ContentComponent),
       },
       {path: 'reservations',
-        loadComponent: () => import('./content/restaurant/reservation/reservation.component').then(m => m.ReservationComponent),
+        loadComponent: () => import('./content/admin/reservations/reservations.component').then(m => m.ReservationsComponent),
       },
       {
         path: 'settings',

@@ -1,0 +1,66 @@
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  h2 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+}
+
+/* The "Save" button at top-right */
+.save-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: #2f4f3f;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* The form grid */
+.content-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+
+    input,
+    textarea {
+      margin-top: 0.25rem;
+      padding: 0.5rem;
+      font-size: 0.9rem;
+    }
+  }
+
+  .content-field {
+    grid-column: 1 / span 1;
+  }
+
+  .image-field {
+    grid-column: 2 / span 1;
+    align-self: flex-end;
+    /* The FileUploadCva might be 200x150, so adjust accordingly */
+  }
+}
