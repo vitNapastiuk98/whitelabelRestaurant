@@ -61,7 +61,7 @@ whitelabel-restaurant/
 
 ### Frontend (`/client`)
 
-* **Framework**: Angular (v17+)
+* **Framework**: Angular v19
 * **Styling**: SCSS, Bootstrap
 * **State & HTTP**: RxJS
 
