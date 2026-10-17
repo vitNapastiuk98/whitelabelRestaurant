@@ -1,0 +1,19 @@
+<div class="events-container">
+  <h1>{{ data()?.title }}</h1>
+  <p class="subtitle">
+    {{ data()?.subtitle }}
+  </p>
+
+  <div class="events-grid">
+    @for ( event of events(); track $index) {
+      <div class="event-card">
+        <img [src]="event.photo || '/jazz.jpg'" [alt]="event.title" class="event-photo" />
+
+        <div class="event-info">
+          <h2>{{ event.title }}</h2>
+          <p>{{ event.description }}</p><p class="event-date">{{ event.date }}</p>
+        </div>
+      </div>
+    }
+  </div>
+</div>

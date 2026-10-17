@@ -1,0 +1,25 @@
+<div class="contact-container">
+  <div class="left-panel"><h1>Contattaci</h1>
+    <div class="info-block"><strong>Indirizzo</strong><p>{{ address }}</p></div>
+    <div class="info-block"><strong>Telefono</strong><p><a [href]="'tel:' + phone">{{ phone }}</a></p></div>
+    <div class="info-block"><strong>Email</strong><p><a [href]="'mailto:' + email">{{ email }}</a></p></div>
+    <div class="info-block"><strong>Orari</strong>
+      @for (oh of openingHours; track oh.day) { <div class="hour-row"><div class="day">{{ oh.day }}</div><div class="time">{{ oh.hours }}</div></div> }
+    </div>
+  </div>
+  <div class="right-panel">
+    @if (contactState() === 'idle') {
+      <form class="contact-form" (submit)="$event.preventDefault(); onSubmit()">
+        @if (error()) { <p role="alert">{{ error() }}</p> }
+        <label>Nome*<input type="text" autocomplete="name" [formField]="form.fullName" /></label>
+        <label>Email*<input type="email" autocomplete="email" [formField]="form.userEmail" /></label>
+        <label>Telefono*<input type="tel" autocomplete="tel" [formField]="form.userPhone" /></label>
+        <label>Messaggio*<textarea rows="4" [formField]="form.message"></textarea></label>
+        <div class="consent-box"><label><input type="checkbox" [formField]="form.consent" />Acconsento all’utilizzo dei miei dati per rispondere a questa richiesta.</label></div>
+        <button type="submit" class="submit-btn">Invia messaggio</button>
+      </form>
+    }
+    @if (contactState() === 'loading') { <div class="loading-state" role="status"><h2>Invio in corso…</h2><div class="spinner"></div></div> }
+    @if (contactState() === 'success') { <div class="success-state" role="status"><h3>Messaggio ricevuto!</h3><p>Il ristorante ha ricevuto il tuo messaggio.</p><button type="button" (click)="reset()">Nuovo messaggio</button></div> }
+  </div>
+</div>

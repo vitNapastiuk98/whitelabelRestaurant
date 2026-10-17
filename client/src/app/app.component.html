@@ -1,3 +1,11 @@
-<app-header [isAdminRoutes]="isAdminRoutes()">
-</app-header>
-<router-outlet></router-outlet>
+@if (store.config()) {
+  <app-header [isAdminRoutes]="isAdminRoutes()"></app-header>
+  <router-outlet></router-outlet>
+  @if (!router.url.startsWith('/admin') && router.url !== '/') { <app-footer></app-footer> }
+} @else {
+  <main class="admin-form">
+    @if (loadingError()) {
+      <p role="alert">{{ loadingError() }}</p><button type="button" (click)="load()">Riprova</button>
+    } @else { <p role="status">Caricamento…</p> }
+  </main>
+}

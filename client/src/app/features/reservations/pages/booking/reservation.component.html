@@ -1,0 +1,33 @@
+<div class="reservation-container">
+  <div class="left-panel"><h1>Prenota il tuo tavolo per<br>un’esperienza <em>memorabile</em>.</h1>
+    <div class="opening-hours"><h3>Orari</h3>
+      @for (oh of openingHours; track oh.day) { <div class="hour-row"><div class="day">{{ oh.day }}</div><div class="time">{{ oh.hours }}</div></div> }
+    </div>
+  </div>
+  <div class="right-panel">
+    @if (reservationState() === 'idle') {
+      <form class="reservation-form" (submit)="$event.preventDefault(); onSubmit()">
+        @if (error()) { <p role="alert">{{ error() }}</p> }
+        <label>Nome*<input type="text" autocomplete="name" [formField]="form.name" /></label>
+        <label>Email<input type="email" autocomplete="email" [formField]="form.email" /></label>
+        <label>Telefono*<input type="tel" autocomplete="tel" [formField]="form.phone" /></label>
+        <div class="row-3fields">
+          <label>N. persone*<select [formField]="form.people">
+            @for (n of [1,2,3,4,5,6,7,8,9,10]; track n) { <option [value]="n">{{ n }}</option> }
+          </select></label>
+          <label>Data*<input type="date" [formField]="form.date" /></label>
+          <label>Orario*<select [formField]="form.time">
+            <option value="">Scegli orario</option>
+            @for (t of ['12:00','12:30','13:00','13:30','19:00','19:30','20:00','20:30','21:00']; track t) { <option>{{ t }}</option> }
+          </select></label>
+        </div>
+        <div class="consent-box"><label><input type="checkbox" [formField]="form.consent" />Acconsento all’utilizzo dei miei dati per gestire questa richiesta.</label></div>
+        <button type="submit" class="submit-btn">Prenota ora</button>
+      </form>
+    }
+    @if (reservationState() === 'loading') { <div class="loading-state" role="status"><h2>Invio in corso…</h2><div class="spinner"></div></div> }
+    @if (reservationState() === 'success') {
+      <div class="success-state" role="status"><h3>Richiesta inviata!</h3><p>Il ristorante ha ricevuto la tua richiesta. Contattaci per confermare la disponibilità del tavolo.</p><button type="button" (click)="reset()">Nuova prenotazione</button></div>
+    }
+  </div>
+</div>

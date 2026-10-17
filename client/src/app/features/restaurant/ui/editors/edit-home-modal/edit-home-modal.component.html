@@ -1,0 +1,46 @@
+<div class="modal-header">
+  <h2 mat-dialog-title>Home</h2>
+  <button mat-dialog-close mat-button class="close-btn" (click)="close()">X</button>
+</div>
+
+<mat-dialog-content class="modal-content">
+  <form>
+    @for (group of form.items;let i = $index; track i) {
+    <div
+      class="item-row"
+    >
+      <div class="left-col">
+        <app-file-upload [formField]="group.file"></app-file-upload>
+      </div>
+      <div class="right-col">
+        <!-- Two text inputs on the right -->
+       <mat-form-field>
+         <mat-label>
+           Prima riga
+         </mat-label>
+         <input matInput type="text" [formField]="group.text1" />
+
+       </mat-form-field>
+        <mat-form-field>
+          <mat-label>
+            Seconda riga
+          </mat-label>
+          <input matInput type="text" [formField]="group.text2" />
+
+        </mat-form-field>
+      </div>
+
+      <!-- Optional: remove item button -->
+      <button mat-button class="remove-btn" type="button" (click)="removeItem(i)">Rimuovi</button>
+    </div>
+    }
+
+    <!-- Optional: Add new item button -->
+    <button mat-button class="add-btn" type="button" (click)="addItem()">Aggiungi immagine</button>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button matDialogClose (click)="close()">Annulla</button>
+  <button mat-button  (click)="onConfirm()">Salva</button>
+</mat-dialog-actions>

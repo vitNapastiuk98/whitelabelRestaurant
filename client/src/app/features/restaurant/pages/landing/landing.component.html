@@ -1,0 +1,17 @@
+<section class="slideshow-container" aria-label="Il nostro ristorante">
+  @for (slide of slides(); track $index) {
+    <div class="slide" [class.active]="$index === currentSlideIndex()" [attr.aria-hidden]="$index !== currentSlideIndex()">
+      <img [src]="slide.src" [alt]="slide.alt" [attr.fetchpriority]="$index === 0 ? 'high' : 'auto'" />
+      <div class="slide-text"><h1>{{ slide.title }}@if (slide.subtitle) { <br><em>{{ slide.subtitle }}</em> }</h1></div>
+    </div>
+  }
+  @if (slides().length > 1) {
+    <button type="button" class="prev-button" aria-label="Immagine precedente" (click)="prevSlide()">‹</button>
+    <button type="button" class="next-button" aria-label="Immagine successiva" (click)="nextSlide()">›</button>
+    <div class="dots">
+      @for (slide of slides(); track $index) {
+        <button type="button" class="dot" [class.active]="$index === currentSlideIndex()" [attr.aria-label]="'Mostra immagine ' + ($index + 1)" [attr.aria-current]="$index === currentSlideIndex() ? 'true' : null" (click)="goToSlide($index)"></button>
+      }
+    </div>
+  }
+</section>

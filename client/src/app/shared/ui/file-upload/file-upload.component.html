@@ -1,0 +1,11 @@
+<div class="file-upload-container" [class.disabled]="disabled()" [attr.aria-disabled]="disabled()" (click)="onSelectFile()" role="button" [attr.tabindex]="disabled() ? -1 : 0" aria-label="Carica immagine" (blur)="touch.emit()" (keydown.enter)="onSelectFile()" (keydown.space)="$event.preventDefault(); onSelectFile()">
+  @if (value(); as preview) {
+    <img [src]="preview" alt="Preview" class="preview" />
+  } @else {
+    <div class="placeholder"></div>
+  }
+  <input #fileInput type="file" [disabled]="disabled()" [attr.accept]="accept()" (change)="onFileSelected($event)" hidden />
+</div>
+@if (error(); as message) {
+  <p role="alert">{{ message }}</p>
+}

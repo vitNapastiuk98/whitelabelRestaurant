@@ -1,0 +1,38 @@
+<!-- Modal Header -->
+<div class="modal-header">
+  <h2 mat-dialog-title>Edit Specialties</h2>
+  <button mat-button mat-dialog-close  (click)="close()">X</button>
+</div>
+
+<!-- Main Form Content -->
+<mat-dialog-content class="specialties-form">
+  @for ( specCtrl of form.specialties; let i = $index; track i) {
+    <div class="specialty-row">
+      <div class="photo-field">
+        <app-file-upload [formField]="specCtrl.photo" accept="image/*"></app-file-upload>
+      </div>
+      <div class="details-field">
+        <mat-form-field>
+          <mat-label>
+            Name
+          </mat-label>
+          <input matInput type="text" [formField]="specCtrl.name" />
+
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>
+            Menu Link
+          </mat-label>
+          <input matInput type="text" [formField]="specCtrl.menuLink" placeholder="/menu" />
+
+        </mat-form-field>
+      </div>
+    </div>
+  }
+</mat-dialog-content>
+
+<!-- Modal Footer -->
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close class="cancel-btn" (click)="close()">Cancel</button>
+  <button mat-button (click)="save()">Confirm</button>
+</mat-dialog-actions>

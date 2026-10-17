@@ -1,0 +1,72 @@
+<main class="admin-form">
+  <header class="settings-header">
+    <div><p class="eyebrow">Il tuo ristorante</p><h1>Impostazioni</h1></div>
+    <button class="secondary" type="button" (click)="logout()">Esci</button>
+  </header>
+
+  <form (submit)="$event.preventDefault(); save()" [attr.aria-busy]="saving()">
+    <section aria-labelledby="identity-title">
+      <h2 id="identity-title">Identità e contatti</h2>
+      <div class="field-grid">
+        <label>Nome ristorante<input [formField]="form.name" /></label>
+        <label>Indirizzo<input [formField]="form.address" /></label>
+        <label>Telefono<input [formField]="form.phone" type="tel" /></label>
+        <label>Email<input [formField]="form.email" type="email" /></label>
+      </div>
+    </section>
+    <section aria-labelledby="colors-title">
+      <h2 id="colors-title">Colori del sito</h2>
+      <p id="colors-help">Usa un codice esadecimale di sei cifre, per esempio #344e41.</p>
+      <div class="field-grid">
+        @for (color of colorFields; track color.key) {
+          <label>{{ color.label }}
+            <span class="color-field">
+              <span class="color-preview" aria-hidden="true" [style.background-color]="!form.colors[color.key]().invalid() ? form.colors[color.key]().value() : 'transparent'"></span>
+              <input [formField]="form.colors[color.key]" aria-describedby="colors-help" spellcheck="false" />
+            </span>
+          </label>
+        }
+      </div>
+    </section>
+    @if (status()) { <p role="status" class="success">{{ status() }}</p> }
+    @if (error()) { <p role="alert" class="error">{{ error() }}</p> }
+    <button type="submit" [disabled]="saving() || form().invalid()">{{ saving() ? 'Salvataggio…' : 'Salva impostazioni' }}</button>
+  </form>
+
+  <section aria-labelledby="domain-title">
+    <h2 id="domain-title">Dominio</h2>
+    <p id="domain-help">Inserisci solo il nome host (es. ristorante.it), senza https://, percorsi o porte. DNS e certificati HTTPS devono essere configurati separatamente dal gestore del dominio e dell'hosting.</p>
+    <form (submit)="$event.preventDefault(); saveDomain()" [attr.aria-busy]="savingDomain()">
+      <label>Dominio principale<input [formField]="domainForm.domain" aria-describedby="domain-help" autocapitalize="none" spellcheck="false" /></label>
+      <label>Domini aggiuntivi<textarea [formField]="domainForm.aliases" rows="4" aria-describedby="aliases-help" autocapitalize="none" spellcheck="false"></textarea></label>
+      <p id="aliases-help">Un nome host per riga. Il dominio attualmente in uso viene conservato per mantenere l'accesso.</p>
+      @if (domainStatus()) { <p role="status" class="success">{{ domainStatus() }}</p> }
+      @if (domainError()) { <p role="alert" class="error">{{ domainError() }}</p> }
+      <button type="submit" [disabled]="savingDomain() || domainForm().invalid()">{{ savingDomain() ? 'Salvataggio…' : 'Salva domini' }}</button>
+    </form>
+  </section>
+
+  <section aria-labelledby="admins-title">
+    <h2 id="admins-title">Amministratori</h2>
+    <p>Ogni amministratore può gestire contenuti e impostazioni di questo ristorante.</p>
+    @if (loadingAdmins()) {
+      <p role="status">Caricamento amministratori…</p>
+    } @else {
+      <ul class="admin-list">@for (admin of admins(); track admin._id) { <li>{{ admin.username }}</li> }</ul>
+      <button class="secondary" type="button" (click)="loadAdmins()" [disabled]="creatingAdmin()">Aggiorna elenco</button>
+    }
+    <form (submit)="$event.preventDefault(); createAdmin()" [attr.aria-busy]="creatingAdmin()">
+      <h3>Aggiungi amministratore</h3>
+      <div class="field-grid">
+        <label>Nome utente<input [formField]="adminForm.username" aria-describedby="username-help" autocomplete="off" autocapitalize="none" spellcheck="false" /></label>
+        <label>Password<input [formField]="adminForm.password" type="password" autocomplete="new-password" aria-describedby="password-help" /></label>
+      </div>
+      <p id="username-help">Nomi utente di 3–80 caratteri: lettere senza accenti, numeri, punto, trattino o underscore.</p>
+      @if (adminForm.password().touched() && adminForm.password().invalid()) { <p role="alert">La password deve contenere almeno 12 caratteri e non superare 72 byte.</p> }
+      <p id="password-help">Almeno 12 caratteri, massimo 72 byte. Condividi le credenziali in modo sicuro.</p>
+      @if (adminStatus()) { <p role="status" class="success">{{ adminStatus() }}</p> }
+      @if (adminError()) { <p role="alert" class="error">{{ adminError() }}</p> }
+      <button type="submit" [disabled]="creatingAdmin() || loadingAdmins() || adminForm().invalid()">{{ creatingAdmin() ? 'Creazione…' : 'Aggiungi amministratore' }}</button>
+    </form>
+  </section>
+</main>

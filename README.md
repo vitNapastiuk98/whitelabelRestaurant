@@ -1,190 +1,112 @@
-# 🍽️ Whitelabel Restaurant
+# Whitelabel Restaurant
 
-A full-stack **restaurant management solution** designed with a **white-label architecture**. The platform allows customizable branding and configuration, enabling multiple restaurant businesses to manage their online presence, menus, events, and reservations through a **single unified system**.
+Angular 22.2.3 restaurant website and admin, backed by **NestJS 11 with Fastify** and MongoDB. The backend serves the Angular production build and a same-origin `/api` API. Requires Node.js 22.22.3+ (22 LTS), 24.15.0+, or 26+, and npm.
 
----
+Implemented: editable home/about/menu/specialties/events with saved images, admin login/logout, restaurant contact and color settings, additional admin accounts, hostname/alias routing, guest reservation requests, contact messages, and admin booking/message views. Requests and private data are scoped to the restaurant's hostname.
 
-## 📁 Project Structure
+## Run locally
 
-The project is organized as a **monorepo** containing both frontend and backend applications:
+Install both applications:
 
-```text
-whitelabel-restaurant/
-├── client/   # Angular frontend
-└── server/   # Node.js + Express backend
+```sh
+npm ci --prefix client
+npm ci --prefix server
+cp server/.env.example server/.env
 ```
 
-* **`client/`** → Frontend application built with **Angular**
-* **`server/`** → Backend REST API built with **Node.js**, **Express**, and **TypeScript**
+Edit `server/.env`: set `ADMIN_PASSWORD` to a unique password of at least 12 characters and `JWT_SECRET` to a random secret of at least 32 characters (`openssl rand -hex 32` generates one). Keep these private. `RESTAURANT_DOMAIN` defaults to `localhost`; use that hostname when opening the website.
 
----
+Start MongoDB, either your existing instance/Atlas database via `MONGODB_URI`, or the included persistent local container:
 
-## ✨ Features
-
-* 🎨 **White-label Configuration**
-  Customizable restaurant identity: logo, social links, theme, and "About Us" content.
-
-* 📖 **Menu Management**
-  Dynamic management of menu categories, items, and specialties.
-
-* 🪑 **Reservation System**
-  Customer table booking with admin-side reservation management.
-
-* 🎉 **Event Management**
-  Create, publish, and manage restaurant events.
-
-* 🛠️ **Admin Dashboard**
-  Secure control panel for restaurant administrators.
-
-* 🌍 **Public Landing Page**
-  Customer-facing website showcasing menus, events, and restaurant info.
-
-* 🔐 **Authentication**
-  Secure JWT-based authentication for administrators.
-
-* 🌐 **Multi-language Support**
-  Built-in localization for wider accessibility.
-
----
-
-## 🧰 Tech Stack
-
-### Backend (`/server`)
-
-* **Runtime**: Node.js
-* **Framework**: Express.js
-* **Language**: TypeScript
-* **Database**: MongoDB (Mongoose ODM)
-* **Architecture**: `routing-controllers` (class-based routing & DI)
-* **Authentication**: `jsonwebtoken`, `bcryptjs`
-* **File Uploads**: `multer`
-
-### Frontend (`/client`)
-
-* **Framework**: Angular v19
-* **Styling**: SCSS, Bootstrap
-* **State & HTTP**: RxJS
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-Make sure the following tools are installed on your machine:
-
-* [Node.js](https://nodejs.org/) (LTS recommended)
-* [MongoDB](https://www.mongodb.com/) (local or Atlas)
-* [Angular CLI](https://angular.io/cli) *(optional but recommended)*
-
----
-
-## 🖥️ Server Setup
-
-### 1. Install Dependencies
-
-```bash
-cd server
-npm install
+```sh
+docker compose up -d
 ```
 
-### 2. Environment Configuration
+Build and run the complete application from the repository root:
 
-Create a `.env` file in the **server root directory**:
-
-```env
-# Server Configuration
-PORT=3000
-
-# Database Connection
-MONGO_URI=mongodb://localhost:27017/whitelabel_restaurant
-
-# Security & Authentication
-JWT_SECRET=your_super_secret_jwt_key
-BCRYPT_SALT=10
-
-# CORS Configuration
-CLIENT_URL=http://localhost:4200
-```
-
-### 3. Run the Server
-
-```bash
-# Development (hot reload)
-npm run dev
-
-# Production
+```sh
 npm run build
 npm start
 ```
 
-The API will be available at:
+Open **http://localhost:3000**, or **http://localhost:3000/admin/login** for the admin. The initial username is `admin` (override with `ADMIN_USERNAME`); the password is the value you set. `PORT` and `HOST` override the server's default `3000` and `127.0.0.1`. Set `HOST=0.0.0.0` when running behind a container or remote reverse proxy.
 
-👉 **[http://localhost:3000](http://localhost:3000)**
+For development, run these in separate terminals:
 
----
-
-## 🌐 Client Setup
-
-### 1. Install Dependencies
-
-```bash
-cd client
-npm install
+```sh
+npm --prefix server run dev
+npm --prefix client start
 ```
 
-### 2. Run the Client
+Open http://localhost:4200. Angular proxies `/api` to Nest on port 3000. If you change the backend port, update `client/proxy.conf.json` too.
 
-```bash
-npm start
+## Frontend architecture
+
+The Angular 22 application runs without Zone.js and keeps business ownership in feature folders:
+
+| Folder | Responsibility |
+| --- | --- |
+| `client/src/app/features/restaurant` | Public content, menu, contact form, and content editor |
+| `client/src/app/features/identity` | Login, session state, and route guards |
+| `client/src/app/features/reservations` | Guest booking, reservations, and message inbox |
+| `client/src/app/features/whitelabel` | Branding, domain configuration, and administrator management |
+| `client/src/app/shared` | Reusable signal form controls and site layout |
+| `client/src/app/core/http` | Authentication interceptor |
+
+Features separate domain contracts, data access, and pages where needed. Domain models do not depend on UI components. Routes load pages lazily, and admin child routes check authentication. Signals and computed values drive UI state; `httpResource` handles configuration, administrator lists, reservations, and messages with loading/error/retry states. Writes remain explicit HTTP commands. All editable forms use `@angular/forms/signals`, including nested content editors and the image upload control.
+
+Run the frontend tests with Chrome installed:
+
+```sh
+CHROME_BIN="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" npm --prefix client test -- --watch=false --browsers=ChromeHeadless
 ```
 
-The frontend application will be available at:
+## Data and accounts
 
-👉 **[http://localhost:4200](http://localhost:4200)**
+Startup seeds the configured hostname and its first admin. Repeated starts preserve existing users, passwords, reservations and edited content. Missing content sections are initialized; existing menu items/categories and events are copied into the editable sections without deleting the original records. Back up an existing database before upgrading and set `RESTAURANT_DOMAIN` to its configured domain. Domains must be lower-case hostnames without a scheme or port.
 
----
+An existing admin password is never reset from environment variables. Admin signup is intentionally unavailable: `/admin/signup` redirects to login. To provision another restaurant, run `npm --prefix server run seed` with its domain, a distinct `ADMIN_USERNAME`, and password in the environment. Old accounts seeded with `admin123` should be changed before exposing the service.
 
-## 🔌 API Overview
+Public content now lives in `whitelabelconfigs.content`; edits use `/api/content/:section`. The older individual menu/category/event write endpoints have been retired so there is one source of truth. Existing MongoDB collection names and archived records are retained.
 
-The backend exposes a **RESTful API** organized by resource controllers:
+## Whitelabel configuration
 
-| Resource        | Endpoint           | Description                         |
-| --------------- | ------------------ | ----------------------------------- |
-| Whitelabel      | `/whitelabel`      | Global restaurant configuration     |
-| Authentication  | `/auth`            | Admin login & registration          |
-| Menu            | `/menu`            | Menu items management               |
-| Menu Categories | `/menu-categories` | Menu category management            |
-| Reservations    | `/reservations`    | Table booking logic                 |
-| Events          | `/events`          | Restaurant events                   |
-| TheFork         | `/thefork`         | Third-party reservation integration |
-| Users           | `/users`           | System user management              |
+Open **http://localhost:3000/admin/settings** after signing in, or choose **Impostazioni** in the admin navigation.
 
----
+- **Restaurant and appearance:** edit contact details and the primary, background, text, and button colors. Saved colors apply to the website immediately and survive reloads. Text on colored panels/buttons automatically uses black or white for readability.
+- **Domains:** set a primary hostname and additional aliases. Enter hostnames only, without `https://`, paths, or ports. The current hostname is retained when you change the primary, so you can continue administering the restaurant. Names already assigned to another restaurant cannot be claimed.
+- **Administrators:** view this restaurant’s admins and create another account. New usernames use 3–80 letters, digits, dots, underscores, or hyphens. Passwords require at least 12 characters and must fit within bcrypt’s 72-byte limit. Every account can manage this restaurant’s content and settings; roles, account deletion, and password reset are not included.
 
-## 🤝 Contributing
+Saving a domain configures application routing; it does not register a domain or change DNS. For a public hostname, point its DNS at the hosting server and configure HTTPS/reverse-proxy forwarding while preserving the original Host header. For local testing, an alias such as `demo.localhost` can access the same running app at `http://demo.localhost:3000`.
 
-1. Fork the repository
-2. Create your feature branch
+## API
 
-```bash
-git checkout -b feature/NewFeature
+| Method | Endpoint | Access / result |
+| --- | --- | --- |
+| GET | `/api/whitelabel` | Current restaurant configuration and public content; excludes integration secrets |
+| POST | `/api/auth/login` | `{ username, password }` → one-hour bearer token |
+| PUT | `/api/whitelabel` | Admin: `{ name, contactInfo: { address, phone, email }, colors: { primary, background, text, button } }` |
+| PUT | `/api/whitelabel/domain` | Admin: `{ domain, aliases: string[] }` → updated public config |
+| GET / POST | `/api/admins` | Admin: list accounts / create `{ username, password }`; no passwords or hashes in responses |
+| PUT | `/api/content/:section` | Admin: `home`, `about`, `menu`, `specialties`, or `events` section |
+| GET | `/api/menu`, `/api/menu-categories`, `/api/events` | Published menu, categories, or event section |
+| POST | `/api/reservations` | Guest: `{ name, phone, email?, date: "YYYY-MM-DD", time: "HH:mm", guests, consent: true }` |
+| GET / DELETE | `/api/reservations`, `/api/reservations/:id` | Admin: list / remove requests |
+| POST | `/api/messages` | Guest: `{ name, email, phone, message, consent: true }` |
+| GET | `/api/messages` | Admin: received messages |
+
+Admin requests use `Authorization: Bearer <token>`. Primary hostnames and aliases resolve tenants on the server; client-supplied tenant IDs are ignored. Images accept PNG/JPEG/WebP/GIF up to 1 MB each and persist as data URLs within MongoDB’s 16 MB limit for the whole restaurant document; use object storage for larger image libraries. The admin session lasts for the browser tab's session and expires after one hour.
+
+## Checks
+
+```sh
+npm test
+npm --prefix client test -- --watch=false --browsers=ChromeHeadless
+npm run build
 ```
 
-3. Commit your changes
+Backend tests start a disposable MongoDB automatically using `mongodb-memory-server` and exercise the Nest/Fastify HTTP pipeline. The first run downloads a MongoDB binary. Frontend tests require Chrome; set `CHROME_BIN` if it is not found automatically.
 
-```bash
-git commit -m "Add NewFeature"
-```
+## Current limits
 
-4. Push to the branch
-
-```bash
-git push origin feature/NewFeature
-```
-
-5. Open a Pull Request
-
----
-
-✨ *Whitelabel Restaurant – One platform, infinite restaurant brands.*
+Bookings are requests for staff to review; this version does not enforce table capacity or send email/SMS confirmations. Contact messages are stored for staff rather than emailed. The UI is Italian; automated translations and TheFork integration are not enabled. Before a public deployment, configure your real restaurant details, HTTPS, database access/backups, and reverse-proxy rate limits for login and guest submissions. Hosting has not been deployed by this change.

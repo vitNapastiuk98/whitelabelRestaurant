@@ -1,0 +1,8 @@
+ main { max-width: 1600px; margin: 0 auto; padding: 64px var(--restaurant-gutter) 96px !important; background: var(--restaurant-paper); }
+h1 { margin-bottom: 28px; }
+main > button { padding: 12px 24px; border: 1px solid #a6afa3; background: transparent; margin-bottom: 32px; }
+h2 { margin: 56px 0 28px; }
+article { padding: 24px 0; border-bottom: 1px solid var(--restaurant-border); }
+article h3 { font-size: 28px; margin-bottom: 12px; }
+article p { font-size: 18px; }
+@media (max-width: 700px) { main { padding-top: 40px !important; } }

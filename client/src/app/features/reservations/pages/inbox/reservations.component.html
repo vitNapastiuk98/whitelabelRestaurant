@@ -1,0 +1,20 @@
+<main style="padding: 2rem">
+  <h1>Prenotazioni</h1><button type="button" (click)="load()" [disabled]="loading()">Aggiorna</button>
+  @if (error()) { <p role="alert">{{ error() }}</p> }
+  @if (loading()) { <p role="status">Caricamento…</p> }
+  <div class="table-scroll"><table class="admin-table">
+    <thead><tr><th>Data</th><th>Ora</th><th>Nome</th><th>Persone</th><th>Contatto</th><th>Azioni</th></tr></thead>
+    <tbody>
+    @for (item of reservations(); track item._id) {
+      <tr><td>{{ item.date | date:'dd/MM/yyyy':'UTC' }}</td><td>{{ item.time }}</td><td>{{ item.name || '—' }}</td>
+      <td>{{ item.guests }}</td><td><a [href]="'tel:' + item.phone">{{ item.phone }}</a><br>{{ item.email }}</td>
+      <td><button type="button" [disabled]="!!deleting()" (click)="remove(item._id)">Elimina</button></td></tr>
+    } @empty { <tr><td colspan="6">Nessuna prenotazione.</td></tr> }
+    </tbody>
+  </table></div>
+  <h2>Messaggi</h2>
+  @for (item of messages(); track item._id) {
+    <article><h3>{{ item.name }} · {{ item.createdAt | date:'dd/MM/yyyy HH:mm' }}</h3>
+      <p><a [href]="'mailto:' + item.email">{{ item.email }}</a> · {{ item.phone }}</p><p>{{ item.message }}</p></article>
+  } @empty { <p>Nessun messaggio.</p> }
+</main>

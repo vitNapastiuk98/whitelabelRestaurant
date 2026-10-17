@@ -1,0 +1,79 @@
+<!-- Modal header -->
+<div class="modal-header">
+  <h2 mat-dialog-title> Menu </h2>
+
+  <button mat-button mat-dialog-close class="close-btn" (click)="close()">X</button>
+</div>
+
+<!-- Title & Description row -->
+<mat-dialog-content class="menu-edit-form">
+  <div class="top-row">
+   <mat-form-field>
+     <mat-label class="field">
+       Title
+     </mat-label>
+     <input matInput type="text" [formField]="form.title" />
+
+   </mat-form-field>
+   <mat-form-field>
+     <mat-label class="field">
+       Description
+     </mat-label>
+     <input matInput type="text" [formField]="form.description" />
+
+   </mat-form-field>
+  </div>
+
+  <!-- Category buttons -->
+  <div class="category-tabs">
+    @for ( catCtrl of form.categories; let i = $index; track i) {
+      <button
+      mat-button
+        type="button"
+        [class.active]="i === selectedCategoryIndex()"
+        (click)="selectCategory(i)"
+      >
+        {{ catCtrl.name().value() }}
+      </button>
+    }
+  </div>
+
+  <button mat-button type="button" (click)="addCategory()">+ Categoria</button>
+  @if (selectedCategory) {
+    <div>
+      <mat-form-field><mat-label>Nome categoria</mat-label><input matInput [formField]="selectedCategory.name" /></mat-form-field>
+      <button mat-button type="button" (click)="removeCategory()">Rimuovi categoria</button>
+    </div>
+  }
+  <!-- Items list for the selected category -->
+  <div class="items-list">
+    @if (selectedCategory) {
+      @for ( itemCtrl of selectedCategory.items; let j = $index; track j ) {
+        <div class="item-row">
+         <mat-form-field>
+           <mat-label>
+             Item {{ j+1 }}
+           </mat-label>
+           <input matInput type="text" [formField]="itemCtrl.name" />
+         </mat-form-field>
+          <mat-form-field>
+            <mat-label>
+              Price
+            </mat-label>
+            <input matInput type="number" [formField]="itemCtrl.price" />
+
+          </mat-form-field>
+          <mat-form-field><mat-label>Descrizione</mat-label><input matInput [formField]="itemCtrl.description" /></mat-form-field>
+          <mat-form-field><mat-label>Allergeni</mat-label><input matInput [formField]="itemCtrl.allergens" /></mat-form-field>
+          <button mat-button type="button" class="remove-btn" (click)="removeItem(j)">x</button>
+        </div>
+      }
+      <button mat-button type="button" class="add-item-btn" (click)="addItem()">+ Add Item</button>
+    }
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [disabled]="form().invalid()" (click)="save()">Save</button>
+</mat-dialog-actions>

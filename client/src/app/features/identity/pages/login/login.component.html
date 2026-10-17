@@ -1,0 +1,9 @@
+<main class="admin-form">
+  <h1>Accesso amministratore</h1>
+  <form (submit)="$event.preventDefault(); submit()">
+    <label>Nome utente<input [formField]="form.username" autocomplete="username" /></label>
+    <label>Password<input [formField]="form.password" type="password" autocomplete="current-password" /></label>
+    @if (error()) { <p role="alert">{{ error() }}</p> }
+    <button type="submit" [disabled]="loading() || form().invalid()">{{ loading() ? 'Accesso…' : 'Accedi' }}</button>
+  </form>
+</main>

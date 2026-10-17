@@ -1,0 +1,13 @@
+<div class="lang-selector">
+  <button type="button" class="lang-selected" (click)="toggleDropdown()" [attr.aria-expanded]="dropdownOpen()" aria-label="Lingua: Italiano">
+    <img [src]="currentFlag" [alt]="currentLabel" class="flag-icon" />
+    <span class="lang-label">{{ currentShortLabel }}</span><i class="fas fa-caret-down" aria-hidden="true"></i>
+  </button>
+  @if (dropdownOpen()) {
+    <ul class="lang-dropdown">
+      @for (lang of languages; track lang.code) {
+        <li><button type="button" class="lang-selected" (click)="selectLanguage(lang)"><img [src]="lang.flag" [alt]="lang.label" class="flag-icon" /><span>{{ lang.label }}</span></button></li>
+      }
+    </ul>
+  }
+</div>

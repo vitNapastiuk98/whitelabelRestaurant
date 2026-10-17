@@ -1,0 +1,10 @@
+ .events-container { padding: 80px var(--restaurant-gutter) 100px; background: var(--restaurant-paper); min-height: calc(100svh - var(--restaurant-header-height)); }
+h1 { margin-bottom: 12px; } .subtitle { max-width: 600px; margin-bottom: 48px; }
+.events-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 48px; }
+.event-photo { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+.event-info { padding: 20px 0; }
+.event-info h2 { font-size: 36px; margin-bottom: 12px; }
+.event-info p { font-size: 18px; }
+.event-date { color: var(--restaurant-green); }
+@media (max-width: 900px) { .events-grid { grid-template-columns: 1fr 1fr; gap: 28px; } }
+@media (max-width: 600px) { .events-container { padding-top: 44px; } .events-grid { grid-template-columns: 1fr; gap: 32px; } }

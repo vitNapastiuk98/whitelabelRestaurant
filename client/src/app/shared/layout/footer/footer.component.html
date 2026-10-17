@@ -1,0 +1,20 @@
+<footer class="site-footer">
+  <div class="footer-identity">
+    <a routerLink="/" aria-label="Pagina iniziale"><img src="/logo.png" [alt]="store.config()?.name || 'Ristorante'" /></a>
+    <p>{{ store.config()?.contactInfo?.address }}<br>© {{ year }} {{ store.config()?.name }}</p>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-contacts">
+      <a routerLink="/contact" aria-label="Dove siamo"><i class="fa-solid fa-location-dot" aria-hidden="true"></i></a>
+      @if (store.config()?.contactInfo?.phone; as phone) {
+        <a [href]="'tel:' + phone" aria-label="Chiama il ristorante"><i class="fa-solid fa-phone" aria-hidden="true"></i></a>
+      }
+      @if (store.config()?.contactInfo?.email; as email) {
+        <a [href]="'mailto:' + email" aria-label="Scrivi al ristorante"><i class="fa-regular fa-envelope" aria-hidden="true"></i></a>
+      }
+    </div>
+    <nav aria-label="Navigazione a fondo pagina">
+      <a routerLink="/about">Su di noi</a><a routerLink="/menu">Menù</a><a routerLink="/contact">Contatti</a><a routerLink="/reservation">Prenotazioni</a><a routerLink="/events">Eventi</a>
+    </nav>
+  </div>
+</footer>

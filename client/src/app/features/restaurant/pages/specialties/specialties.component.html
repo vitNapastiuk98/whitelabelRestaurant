@@ -1,0 +1,15 @@
+<div class="specialties-container">
+  <h1>Le nostre <em>specialità</em></h1><p class="subtitle">Lasciati conquistare dai sapori della cucina italiana.</p>
+  <div class="dishes-grid">
+    @for (dish of dishes(); track $index) {
+      <div class="dish-card">
+        <img [src]="dish.photo || '/carbonara.png'" [alt]="dish.name" class="dish-image" />
+        <div class="dish-info"><div class="dish-name">{{ dish.name }}</div>
+          @let price = priceFor(dish.name);
+          @if (price !== undefined) { <div class="dish-price">€ {{ price.toFixed(2).replace('.', ',') }}</div> }
+          <a class="arrow-box" [routerLink]="dish.menuLink || '/menu'" [attr.aria-label]="'Scopri ' + dish.name"><i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    }
+  </div>
+</div>

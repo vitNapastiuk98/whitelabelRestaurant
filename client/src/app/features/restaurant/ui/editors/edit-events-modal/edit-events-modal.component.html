@@ -1,0 +1,66 @@
+<!-- Modal header -->
+<div class="modal-header">
+  <h2 mat-dialog-title> Edit Events</h2>
+  <button mat-button mat-dialog-close class="close-btn" (click)="close()">X</button>
+</div>
+
+<!-- Title & Subtitle -->
+<mat-dialog-content class="events-form">
+  <mat-form-field>
+    <mat-label>
+      Title
+    </mat-label>
+    <input matInput type="text" [formField]="form.title" />
+
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>
+      Subtitle
+    </mat-label>
+    <input matInput type="text" [formField]="form.subtitle" />
+  </mat-form-field>
+
+  <button mat-button type="button" (click)="addEvent()">+ Evento</button>
+  <!-- Events List -->
+  <div class="events-list">
+    @for ( group of form.events; let i = $index; track i) {
+      <div class="event-item">
+        <app-file-upload [formField]="group.photo"></app-file-upload>
+
+        <div class="text-fields">
+          <mat-form-field>
+            <mat-label>
+              Event Title
+            </mat-label>
+            <input matInput type="text" [formField]="group.title" />
+
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>
+              Description
+            </mat-label>
+            <textarea matInput [formField]="group.description"></textarea>
+
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>
+              Date
+            </mat-label>
+            <input matInput type="text" [formField]="group.date" placeholder="e.g. 21/04/2025" />
+
+          </mat-form-field>
+        </div>
+
+        <button mat-button type="button" class="remove-btn" (click)="removeEvent(i)">-</button>
+      </div>
+    }
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="save()">Save</button>
+</mat-dialog-actions>
+
+

@@ -1,0 +1,9 @@
+ :host { display: block; }
+.admin-content-container { position: relative; }
+.editor-toolbar { display: flex; align-items: center; gap: 24px; padding: 14px var(--restaurant-gutter); background: #fff; border-top: 1px solid #eee; border-bottom: 1px solid #ddd; overflow-x: auto; }
+.editor-toolbar button { border: 0; border-bottom: 1px solid transparent; background: transparent; white-space: nowrap; font-size: 17px; font-weight: 300; padding: 6px 0; }
+.editor-toolbar button.active { border-color: #344e41; font-weight: 700; }
+.content-item { position: relative; }
+.edit-section-button { position: absolute; z-index: 3; top: 48px; right: var(--restaurant-gutter); width: 64px; height: 64px; display: grid; place-items: center; border-radius: 50%; background: #ffffffba; color: #111; border: 0; font-size: 22px; }
+.status-message { padding: 12px var(--restaurant-gutter); margin: 0; font-size: 17px; background: #fff; }
+@media (max-width: 700px) { .editor-toolbar { gap: 24px; } .edit-section-button { top: 24px; width: 48px; height: 48px; font-size: 17px; } }

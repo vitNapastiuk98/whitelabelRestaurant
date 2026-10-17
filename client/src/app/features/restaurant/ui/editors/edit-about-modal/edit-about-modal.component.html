@@ -1,0 +1,60 @@
+<!-- Modal Header -->
+<div class="modal-header">
+  <h2 mat-dialog-title>Edit Section 3</h2>
+  <button mat-button mat-dialog-close class="close-btn" (click)="close()">X</button>
+</div>
+
+<!-- Top-right Save button -->
+
+<!-- The main form content -->
+<mat-dialog-content class="mat-typography">
+  <!-- Row 1: Title + Tag1 -->
+  <mat-form-field >
+    <mat-label class="field">
+      Title
+    </mat-label>
+    <input matInput cdkFocusInitial type="text" [formField]="form.title"/>
+
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label class="field">
+      Tag 1
+
+    </mat-label>
+    <input matInput type="text" [formField]="form.tag1"/>
+  </mat-form-field>
+
+  <!-- Row 2: Caption + Tag2 -->
+    <mat-form-field>
+      <mat-label class="field">
+        Caption
+      </mat-label>
+      <input matInput type="text" [formField]="form.caption"/>
+
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label class="field">
+        Tag 2
+      </mat-label>
+      <input matInput type="text" [formField]="form.tag2"/>
+
+    </mat-form-field>
+
+
+    <mat-form-field>
+      <mat-label class="field content-field">
+        Content
+      </mat-label>
+      <textarea matInput rows="6" [formField]="form.content"></textarea>
+
+    </mat-form-field>
+    <div class="image-field">
+      <app-file-upload [formField]="form.image"></app-file-upload>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="save()">Save</button>
+</mat-dialog-actions>

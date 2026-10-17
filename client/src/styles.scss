@@ -1,206 +1,79 @@
-
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
 
+:root {
+  --restaurant-green: #344e41;
+  --restaurant-paper: #edede9;
+  --restaurant-ink: #171a17;
+  --restaurant-button: #000000;
+  --restaurant-on-primary: #ffffff;
+  --restaurant-on-button: #ffffff;
+  --restaurant-border: #d3d5ce;
+  --restaurant-heading: 'Alegreya', Georgia, serif;
+  --restaurant-body: 'Lato', Arial, sans-serif;
+  --restaurant-gutter: clamp(24px, 3.333vw, 64px);
+  --restaurant-header-height: 192px;
+}
 html {
-  @include mat.theme((
-    color: (
-      theme-type: light,
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
-}/* You can add global styles to this file, and also import other style files */
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-/* --------------------------------------------
-   1. VARIABLES
-   -------------------------------------------- */
-$color-primary: #2F423B;   /* Dark green */
-$color-secondary: #5B0E0E; /* Dark red */
-$color-bg: #FAF9F7;        /* Off-white background */
-$color-text: #333333;      /* Main text color */
-$color-heading: #2F423B;   /* Heading color (same as primary or a variant) */
-
-$font-family-base: 'Open Sans', sans-serif;
-$font-family-heading: 'Playfair Display', serif;
-
-/* Spacing scale (example) */
-$space-xs: 0.25rem;  /* 4px  */
-$space-sm: 0.5rem;   /* 8px  */
-$space-md: 1rem;     /* 16px */
-$space-lg: 2rem;     /* 32px */
-$space-xl: 3rem;     /* 48px */
-
-/* --------------------------------------------
-   2. GLOBAL RESETS
-   -------------------------------------------- */
-
-/* Use box-sizing: border-box for consistent sizing */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+  @include mat.theme((color: (theme-type: light, primary: mat.$green-palette), typography: Lato, density: 0));
+  @include mat.theme-overrides((primary: #344e41, on-primary: #ffffff, surface: #ffffff, on-surface: #171a17));
 }
-
-/* Remove default margin/padding from HTML & body */
-html,
-body {
-  margin: 0;
-  padding: 0;
-  font-family: $font-family-base;
-  font-size: 16px;
-  line-height: 1.5;
-  background-color: $color-bg;
-  color: $color-text;
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body { background: var(--restaurant-paper); color: var(--restaurant-ink); font: 400 20px/1.4 var(--restaurant-body); -webkit-font-smoothing: antialiased; }
+app-root, router-outlet + * { display: block; }
+h1, h2, h3, h4 { margin: 0; font-family: var(--restaurant-heading); font-weight: 400; line-height: 1.2; color: inherit; }
+h1 { font-size: clamp(42px, 4.24vw, 61px); }
+h2 { font-size: clamp(30px, 3vw, 44px); }
+h3 { font-size: 28px; }
+p { margin: 0 0 1em; }
+a { color: inherit; text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 5px; }
+img { display: block; max-width: 100%; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+button { cursor: pointer; }
+button:disabled { opacity: .5; cursor: default; }
+:focus-visible { outline: 2px solid var(--restaurant-green); outline-offset: 4px; }
+[role='alert'] { color: #a32b24; }
+input:not([type='checkbox']), select, textarea { border: 1px solid #e2e3de; border-radius: 0; background: #fff; color: #171a17; padding: 12px 16px; min-height: 48px; width: 100%; }
+textarea { resize: vertical; }
+input[type='checkbox'] { accent-color: var(--restaurant-green); width: 24px; height: 24px; flex: 0 0 auto; }
+input:focus, select:focus, textarea:focus { border-color: var(--restaurant-green); }
+button.submit-btn, .admin-form button[type='submit'] { min-height: 62px; background: var(--restaurant-button); color: var(--restaurant-on-button); border: 1px solid var(--restaurant-button); padding: 14px 28px; font-size: 22px; }
+button.submit-btn:hover, .admin-form button[type='submit']:hover { background: var(--restaurant-green); color: var(--restaurant-on-primary); border-color: var(--restaurant-green); }
+.admin-form { max-width: 720px; margin: 0 auto; padding: 72px 32px 96px; }
+.admin-form h1 { margin-bottom: 40px; }
+.admin-form form { display: grid; gap: 24px; }
+.admin-form label { display: grid; gap: 10px; font-size: 18px; }
+.admin-form > button { margin-top: 24px; padding: 12px 24px; border: 1px solid var(--restaurant-border); background: transparent; }
+.admin-table { width: 100%; border-collapse: collapse; font-size: 18px; }
+.admin-table th { font-weight: 400; padding: 22px 20px; background: #f7f7f4; color: #171a17; text-align: left; }
+.admin-table td { padding: 24px 20px; border-bottom: 1px solid var(--restaurant-border); vertical-align: top; }
+.admin-table td button { background: transparent; border: 1px solid #b8beb6; padding: 9px 15px; }
+.table-scroll { overflow-x: auto; }
+.mat-mdc-dialog-container { --mdc-dialog-container-shape: 0; }
+.mat-mdc-dialog-surface { border-radius: 0 !important; }
+.mat-mdc-dialog-title { font-family: var(--restaurant-heading) !important; font-size: 36px !important; font-weight: 400 !important; }
+.mat-mdc-dialog-content { padding-top: 16px !important; font-family: var(--restaurant-body) !important; }
+.mat-mdc-dialog-actions { padding: 24px !important; gap: 16px; border-top: 1px solid #ededeb; }
+.mat-mdc-dialog-actions button { border: 1px solid #c8cbc4; border-radius: 0; min-width: 110px; }
+.mat-mdc-dialog-actions button:last-child { color: var(--restaurant-on-button); background: var(--restaurant-button); border-color: var(--restaurant-button); }
+.modal-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px 0; }
+.modal-header .close-btn { min-width: 40px; color: #161a16; background: transparent; font-size: 20px; }
+.mat-mdc-form-field { width: 100%; }
+.mat-mdc-text-field-wrapper { background: #fff !important; border: 1px solid #d9dcd5; border-radius: 0 !important; }
+.mdc-line-ripple { display: none; }
+@media (max-width: 700px) {
+  :root { --restaurant-header-height: 150px; }
+  body { font-size: 17px; }
+  .admin-form { padding: 40px 24px 64px; }
+  .admin-table { font-size: 15px; }
+  .admin-table th, .admin-table td { padding: 16px 12px; }
 }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; } }
 
-/* Ensure images and media scale properly */
-img,
-video {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* --------------------------------------------
-   3. TYPOGRAPHY
-   -------------------------------------------- */
-
-/* Headings */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin-top: 0;
-  margin-bottom: $space-md;
-  font-family: $font-family-heading;
-  color: $color-heading;
-  line-height: 1.2;
-}
-
-h1 {
-  font-size: 2rem;
-}
-h2 {
-  font-size: 1.75rem;
-}
-h3 {
-  font-size: 1.5rem;
-}
-
-/* Paragraphs */
-p {
-  margin-top: 0;
-  margin-bottom: $space-md;
-  font-family: $font-family-base;
-}
-
-/* Links */
-a {
-  color: $color-secondary;
-  text-decoration: none;
-  transition: color 0.3s ease;
-
-  &:hover,
-  &:focus {
-    text-decoration: underline;
-  }
-}
-
-/* --------------------------------------------
-   4. LAYOUT & UTILITIES
-   -------------------------------------------- */
-
-/* A basic container to center content and limit width */
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-left: $space-md;
-  padding-right: $space-md;
-}
-
-/* Section spacing: top/bottom padding */
-.section {
-  padding-top: $space-lg;
-  padding-bottom: $space-lg;
-}
-
-
-/* --------------------------------------------
-   5. COMPONENTS
-   -------------------------------------------- */
-
-/* Buttons */
-.btn {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 4px;
-  font-family: $font-family-base;
-  font-size: 1rem;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-/* Primary button style */
-.btn-primary {
-  background-color: $color-primary;
-  color: #fff;
-
-  &:hover {
-    background-color: darken($color-primary, 10%);
-  }
-}
-
-/* Secondary button style */
-.btn-secondary {
-  background-color: $color-secondary;
-  color: #fff;
-
-  &:hover {
-    background-color: darken($color-secondary, 10%);
-  }
-}
-
-/* Cards (for menu items, specialties, etc.) */
-.card {
-  background-color: #fff;
-  border-radius: 4px;
-  overflow: hidden;
-  box-shadow: 0 2px 5px rgba(#000, 0.1);
-  margin-bottom: $space-md;
-}
-
-.card img {
-  width: 100%;
-  height: auto;
-}
-
-.card-content {
-  padding: $space-md;
-}
-
-
-.modal-content {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  // or use grid, etc.
-}
-
-.mat-dialog-container {
-  width: 80% !important;
-  max-width: 1000px;
-  max-height: 80vh;
-  margin: 0 auto;
-}
+.mat-mdc-dialog-content .add-btn, .mat-mdc-dialog-content .add-item-btn { background: transparent !important; color: #344e41 !important; border: 1px solid #9da99d !important; border-radius: 0 !important; padding: 10px 16px !important; }
+.mat-mdc-dialog-content .remove-btn { background: transparent !important; color: #852b25 !important; border: 1px solid #d8c2bd !important; border-radius: 0 !important; }
+.menu-edit-form .item-row { display: grid !important; grid-template-columns: minmax(120px, 1.4fr) 90px minmax(120px, 1.4fr) minmax(100px, 1fr) 36px; align-items: start !important; }
+.menu-edit-form .category-tabs { flex-wrap: wrap; }
+@media (max-width: 800px) { .menu-edit-form .item-row { grid-template-columns: minmax(100px,1fr) 90px; } .menu-edit-form .top-row { grid-template-columns: 1fr; } }

@@ -1,0 +1,14 @@
+ .specialties-container { background: var(--restaurant-green); color: var(--restaurant-on-primary); min-height: calc(100svh - var(--restaurant-header-height)); padding: 80px var(--restaurant-gutter) 120px; }
+h1 { margin-bottom: 12px; } h1 em { font-weight: 400; }
+.subtitle { max-width: 470px; font-size: 20px; line-height: 1.3; margin-bottom: 48px; }
+.dishes-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: clamp(28px,4.7vw,68px); max-width: 1440px; margin: 0 auto; align-items: start; }
+.dish-image { width: 100%; height: auto; aspect-ratio: 400/540; object-fit: cover; }
+.dish-card:nth-child(2) .dish-image { aspect-ratio: 400/480; }
+.dish-card:nth-child(3) .dish-image { aspect-ratio: 400/420; }
+.dish-info { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 14px; }
+.dish-name { font-size: 20px; line-height: 1.2; max-width: 150px; margin-right: auto; }
+.dish-price { font-size: 20px; white-space: nowrap; }
+.arrow-box { display: grid; place-items: center; border: 1px solid currentColor; color: var(--restaurant-on-primary); width: 48px; height: 48px; font-size: 18px; flex: 0 0 auto; }
+.arrow-box:hover { background: #ffffff18; text-decoration: none; }
+@media (max-width: 1000px) { .dish-info { flex-wrap: wrap; gap: 12px; } .dish-name { max-width: 100%; flex-basis: 100%; } .arrow-box { margin-left: auto; width: 40px; height: 40px; } .dish-price { font-size: 17px; } }
+@media (max-width: 700px) { .specialties-container { padding-top: 44px; padding-bottom: 64px; } .subtitle { font-size: 18px; } .dishes-grid { grid-template-columns: 1fr; gap: 40px; } .dish-card .dish-image { aspect-ratio: 4/4.5; } .dish-info { flex-wrap: nowrap; } .dish-name { flex-basis: auto; max-width: 65%; } }

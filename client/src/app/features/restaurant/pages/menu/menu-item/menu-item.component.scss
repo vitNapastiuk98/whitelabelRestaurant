@@ -1,0 +1,6 @@
+ :host { display: block; }
+.menu-item { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 32px; padding: 26px 0; border: 0; border-bottom: 1px solid #dfe2d8; background: transparent; text-align: left; cursor: pointer; }
+.menu-item:hover { background: color-mix(in srgb, var(--restaurant-green) 3%, transparent); }
+.item-name { font-size: 24px; line-height: 1.25; max-width: 420px; }
+.item-price { font-size: 18px; white-space: nowrap; }
+@media (max-width: 700px) { .menu-item { padding: 20px 0; gap: 16px; } .item-name { font-size: 19px; } .item-price { font-size: 16px; } }

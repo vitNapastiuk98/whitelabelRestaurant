@@ -1,0 +1,16 @@
+<main class="admin-content-container">
+  <nav class="editor-toolbar" aria-label="Sezioni del sito">
+    @for (item of contentItems(); track item.label; let i = $index) {
+      <button type="button" [class.active]="selectedIndex() === i" [attr.aria-pressed]="selectedIndex() === i" (click)="selectedIndex.set(i)">{{ labels[item.label] }}</button>
+    }
+  </nav>
+  @if (status()) { <p class="status-message" role="status">{{ status() }}</p> }
+  @if (error()) { <p class="status-message" role="alert">{{ error() }}</p> }
+  @if (saving()) { <p class="status-message" role="status">Salvataggio…</p> }
+  @if (selectedContent; as item) {
+    <section class="content-item" [attr.aria-label]="'Anteprima: ' + labels[item.label]">
+      <button type="button" class="edit-section-button" [disabled]="saving()" [attr.aria-label]="'Modifica ' + labels[item.label]" (click)="openEditModal(item)"><i class="fa-solid fa-pencil" aria-hidden="true"></i></button>
+      <ng-container *ngComponentOutlet="item.viewComponent"></ng-container>
+    </section>
+  }
+</main>

@@ -1,0 +1,33 @@
+<header class="header-container">
+  <!-- TOP ROW -->
+  <div class="header-top-row">
+    <!-- LEFT ICONS -->
+    <div class="header-left-icons">
+     @if (isAdminRoutes()) { <span class="admin-label">ADMIN</span> } @else {
+       <a routerLink="/contact" aria-label="Dove siamo"><i class="fa-solid fa-location-dot" aria-hidden="true"></i></a>
+       @if (store.config()?.contactInfo?.phone) {
+         <a [href]="whatsapp()" aria-label="Contatta il ristorante su WhatsApp" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></a>
+       }
+       @if (store.config()?.contactInfo?.email; as email) {
+         <a class="secondary-social" [href]="'mailto:' + email" aria-label="Scrivi al ristorante"><i class="fa-regular fa-envelope" aria-hidden="true"></i></a>
+       }
+     }
+    </div>
+
+    <!-- CENTER LOGO -->
+    <div class="header-center-logo">
+      <app-logo></app-logo>
+    </div>
+
+    <!-- RIGHT LANGUAGE SELECT -->
+    <div class="header-right-lang">
+      <!-- Example: Custom language selector component (with flags) -->
+      <app-language-selector></app-language-selector>
+    </div>
+  </div>
+
+  <!-- SECOND ROW: NAVIGATION -->
+  <div class="header-nav-row">
+    <app-navigation [navigationList]="navigationList()"></app-navigation>
+  </div>
+</header>

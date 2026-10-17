@@ -1,0 +1,16 @@
+@if (data(); as about) {
+<div class="story-container">
+  <div class="image-section"><img [src]="about.image || '/chef-plating.png'" [alt]="about.title" class="chef-image" /></div>
+  <div class="content-section">
+    <div class="label"><span>{{ about.caption }}</span></div>
+    <h1 class="title">{{ about.title }}</h1><p class="description">{{ about.content }}</p>
+    <a routerLink="/menu" class="cta-button">Scopri di più</a>
+    <div class="stats-row">
+      @for (tag of [about.tag1, about.tag2]; track $index) {
+        @let stat = splitTag(tag);
+        <div class="stat-box">@if (stat.value) { <div class="stat-value">{{ stat.value }}</div> }<div class="stat-label">{{ stat.label }}</div></div>
+      }
+    </div>
+  </div>
+</div>
+}

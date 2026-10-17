@@ -1,0 +1,25 @@
+import { componentTestProviders } from '../../../../testing/providers';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { CustomCalendarComponent } from './custom-calendar.component';
+
+describe('CalendarComponent', () => {
+  let component: CustomCalendarComponent;
+  let fixture: ComponentFixture<CustomCalendarComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      providers: componentTestProviders(),
+      imports: [CustomCalendarComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(CustomCalendarComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

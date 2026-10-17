@@ -1,0 +1,4 @@
+<button type="button" class="menu-item" (click)="onSelectItem()">
+  <div class="item-name">{{ item().name }}</div>
+  <div class="item-price">€ {{ item().price.toFixed(2).replace('.', ',') }}</div>
+</button>

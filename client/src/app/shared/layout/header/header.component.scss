@@ -1,0 +1,17 @@
+ :host { display: block; background: #fff; }
+.header-container { background: #fff; color: #111; }
+.header-top-row { height: 120px; padding: 0 var(--restaurant-gutter); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; border-bottom: 1px solid #d0d0ca; }
+.header-left-icons { display: flex; align-items: center; gap: 20px; font-size: 22px; }
+.header-left-icons a { display: flex; align-items: center; justify-content: center; width: 24px; height: 28px; }
+.admin-label { font-size: 20px; }
+.header-center-logo { justify-self: center; }
+.header-right-lang { justify-self: end; }
+.header-nav-row { min-height: 72px; display: flex; align-items: center; justify-content: center; }
+@media (max-width: 700px) {
+  .header-top-row { height: 96px; grid-template-columns: 1fr auto 1fr; padding: 0 20px; }
+  .header-left-icons { gap: 10px; font-size: 17px; }
+  .header-left-icons a { width: 18px; }
+  .header-left-icons .secondary-social { display: none; }
+  .admin-label { font-size: 13px; }
+  .header-nav-row { min-height: 54px; overflow-x: auto; justify-content: flex-start; }
+}

@@ -1,0 +1,7 @@
+ .lang-selector { position: relative; font-size: 20px; color: #111; }
+.lang-selected { display: flex; align-items: center; gap: 10px; padding: 8px 0; background: transparent; border: 0; cursor: pointer; }
+.flag-icon { width: 28px; height: 22px; object-fit: cover; }
+.fa-caret-down { font-size: 12px; margin-left: 4px; }
+.lang-dropdown { list-style: none; margin: 0; padding: 8px; position: absolute; right: 0; top: 100%; min-width: 160px; z-index: 20; background: #fff; border: 1px solid #ddd; }
+.lang-option { display: flex; align-items: center; gap: 10px; padding: 8px; cursor: pointer; }
+@media (max-width: 700px) { .lang-selector { font-size: 14px; } .flag-icon { width: 20px; height: 16px; } .lang-selected { gap: 6px; } }

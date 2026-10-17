@@ -9,3 +9,7 @@ server/dist/*
 /client/node_modules/
 /client/dist/
 /client/.angular/
+
+/server/public/
+/server/.env
+/server/.env.local
