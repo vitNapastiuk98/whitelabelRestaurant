@@ -1,6 +1,6 @@
 # Whitelabel Restaurant
 
-Angular 22.2.3 restaurant website and admin, backed by **NestJS 11 with Fastify** and MongoDB. The backend serves the Angular production build and a same-origin `/api` API. Requires Node.js 22.22.3+ (22 LTS), 24.15.0+, or 26+, and npm.
+Angular 22.2.3 restaurant website and admin, backed by **NestJS 12.1.3 with Fastify 5** and MongoDB. The backend serves the Angular production build and a same-origin `/api` API. Requires Node.js 22.22.3+ (22 LTS), 24.15.0+, or 26+, and npm.
 
 Implemented: editable home/about/menu/specialties/events with saved images, admin login/logout, restaurant contact and color settings, additional admin accounts, hostname/alias routing, guest reservation requests, contact messages, and admin booking/message views. Requests and private data are scoped to the restaurant's hostname.
 
@@ -39,6 +39,31 @@ npm --prefix client start
 ```
 
 Open http://localhost:4200. Angular proxies `/api` to Nest on port 3000. If you change the backend port, update `client/proxy.conf.json` too.
+
+## Publish on the free tier
+
+The repository includes a multi-stage `Dockerfile` and `render.yaml` Blueprint for **one free Render web service** serving both Angular and NestJS. MongoDB lives in a separate **MongoDB Atlas Free cluster**, so reservations, content, images, and accounts survive redeploys and service sleep. Use the included `.onrender.com` address for a free URL; purchasing a custom domain is separate.
+
+1. Connect this GitHub repository to Render, and create an Atlas **Free** cluster (avoid a paid tier).
+2. Create a database user restricted to the restaurant database and allow the Render service's outbound IP ranges in Atlas Network Access. Use the same region where available.
+3. Create a Render Blueprint from this repository and its deployment branch. Keep the service on **Free**. Enter the Atlas connection string as `MONGODB_URI`, including the database name. Keep this secret in Render, never in Git or chat.
+4. Render generates `JWT_SECRET` and `ADMIN_PASSWORD`; the initial username is `admin`. Retrieve the password privately from the service's environment settings.
+5. Deploy and open the assigned URL. `/api/health` checks the database independently of the Host header. `/admin/login` opens the admin.
+
+`HOST=0.0.0.0` is set in the container; Render supplies `PORT` and `RENDER_EXTERNAL_HOSTNAME`. Leave `RESTAURANT_DOMAIN` unset for the first deployment so the seed uses the assigned Render hostname. If adding your own domain later, configure it in both Render and **Impostazioni → Dominio**. Render manages HTTPS certificates for configured domains. Auto-deploy is disabled in the Blueprint; trigger reviewed deployments manually.
+
+Render Free sleeps after 15 minutes without inbound traffic, and waking it takes about a minute. Usage limits apply, and the free service is intended for demos/hobby use rather than a dependable live restaurant booking system. See [Render Free limits](https://render.com/docs/free) and [Atlas Free limits](https://www.mongodb.com/docs/atlas/reference/free-shared-limitations/). No paid plan or domain purchase is needed for the demo setup. If transferring an existing restaurant, migrate its database separately; first deployment initializes a fresh database and does not upload local data automatically.
+
+For a local production-image check:
+
+```sh
+docker build -t whitelabel-restaurant .
+docker run --rm -p 3000:3000 --env-file server/.env -e HOST=0.0.0.0 -e MONGODB_URI=mongodb://host.docker.internal:27017/restaurant whitelabel-restaurant
+```
+
+## Backend architecture
+
+Nest's `AppModule` composes feature modules for **identity**, **whitelabel**, **restaurant content**, **reservations/messages**, and **health** under `server/src/modules`. Each business feature owns its controllers and services. Controllers declare native HTTP routes; services own validation and database operations. Shared `TenantGuard`, `AdminGuard`, and `CurrentTenant` bind requests to the hostname's restaurant before protected handlers run. A JSON-body pipe validates request shape, and the API error filter returns safe errors. `server/src/lib` holds the shared database schema, existing validation, token helpers, and idempotent seed/migration code. Collection names and existing stored data are preserved.
 
 ## Frontend architecture
 
@@ -89,6 +114,7 @@ Saving a domain configures application routing; it does not register a domain or
 | PUT | `/api/whitelabel/domain` | Admin: `{ domain, aliases: string[] }` → updated public config |
 | GET / POST | `/api/admins` | Admin: list accounts / create `{ username, password }`; no passwords or hashes in responses |
 | PUT | `/api/content/:section` | Admin: `home`, `about`, `menu`, `specialties`, or `events` section |
+| GET | `/api/health` | Public: database readiness, independent of tenant hostname |
 | GET | `/api/menu`, `/api/menu-categories`, `/api/events` | Published menu, categories, or event section |
 | POST | `/api/reservations` | Guest: `{ name, phone, email?, date: "YYYY-MM-DD", time: "HH:mm", guests, consent: true }` |
 | GET / DELETE | `/api/reservations`, `/api/reservations/:id` | Admin: list / remove requests |

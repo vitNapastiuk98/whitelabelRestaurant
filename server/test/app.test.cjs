@@ -262,3 +262,57 @@ test('seed finds the configured admin tenant after its original hostname is remo
   assert.deepEqual(await UserModel.find({ whitelabelId: tenantId }).select('+password').lean(), users);
   assert.equal((await request('/auth/login', 'POST', { username: 'admin', password: process.env.ADMIN_PASSWORD }, false, 'final.example')).status, 200);
 });
+
+test('native modules expose host-independent readiness and reject unknown API routes', async () => {
+  const health = await request('/health', 'GET', undefined, false, 'unconfigured.example');
+  assert.equal(health.status, 200);
+  assert.deepEqual(health.body, { status: 'ok' });
+  const response = await app.inject({ method: 'GET', url: '/api/health', headers: { Host: 'unconfigured.example' } });
+  assert.equal(response.headers['cache-control'], 'no-store');
+  assert.equal((await request('/missing')).status, 404);
+  assert.equal((await request('/auth/login/extra', 'POST', {})).status, 404);
+  const { WhitelabelConfigModel } = require('../dist/lib/db');
+  const host = (await WhitelabelConfigModel.findById(tenantId)).domain;
+  assert.equal((await request('/admins', 'GET', undefined, false, host)).status, 401);
+  assert.equal((await request('/whitelabel', 'PUT', [], true, host)).status, 400);
+  assert.equal((await request('/messages', 'POST', 'invalid', false, host)).status, 400);
+});
+
+test('hosted seed uses Render hostname without resetting existing tenants', async () => {
+  const { seed } = require('../dist/lib/seed');
+  const { WhitelabelConfigModel, UserModel } = require('../dist/lib/db');
+  const previous = Object.fromEntries(['RESTAURANT_DOMAIN', 'RENDER_EXTERNAL_HOSTNAME', 'ADMIN_USERNAME'].map(key => [key, process.env[key]]));
+  try {
+    delete process.env.RESTAURANT_DOMAIN;
+    process.env.RENDER_EXTERNAL_HOSTNAME = 'deployment-test.onrender.com';
+    process.env.ADMIN_USERNAME = 'hosted-test-admin';
+    const count = await WhitelabelConfigModel.countDocuments();
+    await seed();
+    const tenant = await WhitelabelConfigModel.findOne({ domain: process.env.RENDER_EXTERNAL_HOSTNAME });
+    assert.ok(tenant);
+    assert.ok(tenant.domains.includes('deployment-test.onrender.com'));
+    assert.equal(await UserModel.countDocuments({ whitelabelId: tenant._id }), 1);
+    await seed();
+    assert.equal(await WhitelabelConfigModel.countDocuments(), count + 1);
+    process.env.RESTAURANT_DOMAIN = 'explicit-host.example';
+    process.env.ADMIN_USERNAME = 'explicit-host-admin';
+    await seed();
+    assert.ok(await WhitelabelConfigModel.exists({ domain: 'explicit-host.example' }));
+  } finally {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value === undefined) delete process.env[key]; else process.env[key] = value;
+    }
+  }
+});
+
+test('readiness reports unavailable database without exposing connection details', async () => {
+  const database = mongoose.connection.db;
+  const original = database.admin;
+  database.admin = () => ({ ping: async () => { throw new Error('private connection details'); } });
+  try {
+    const result = await request('/health', 'GET', undefined, false, 'health-probe.internal');
+    assert.equal(result.status, 503);
+    assert.equal(result.body.message, 'Database unavailable');
+    assert.ok(!JSON.stringify(result.body).includes('private'));
+  } finally { database.admin = original; }
+});

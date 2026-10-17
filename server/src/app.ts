@@ -1,15 +1,12 @@
 import 'reflect-metadata'
-import { Module, Catch, NotFoundException, ExceptionFilter, ArgumentsHost } from '@nestjs/common'
+import { Catch, NotFoundException, ExceptionFilter, ArgumentsHost } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify'
 import fastifyStatic from '@fastify/static'
 import path from 'node:path'
 import { existsSync } from 'node:fs'
-import { ApiController } from './api.controller'
-import { ApiService } from './api.service'
-
-@Module({ controllers: [ApiController], providers: [ApiService] })
-class AppModule {}
+import { AppModule } from './app.module'
+import { ApiErrorFilter } from './common/api-error.filter'
 
 @Catch(NotFoundException)
 class ClientFallback implements ExceptionFilter {
@@ -32,6 +29,9 @@ export async function createApp() {
     if (existsSync(path.join(client, 'index.html'))) {
         await app.register(fastifyStatic, { root: client, wildcard: false })
     }
-    app.useGlobalFilters(new ClientFallback())
+    app.getHttpAdapter().getInstance().addHook('onRequest', async (request, reply) => {
+        if (request.url === '/api' || request.url.startsWith('/api/')) reply.header('Cache-Control', 'no-store')
+    })
+    app.useGlobalFilters(new ApiErrorFilter(), new ClientFallback())
     return app
 }

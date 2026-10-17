@@ -4,7 +4,7 @@ import { secret } from './auth'
 
 export async function seed() {
     secret()
-    const domain = (process.env.RESTAURANT_DOMAIN || 'localhost').toLowerCase()
+    const domain = (process.env.RESTAURANT_DOMAIN || process.env.RENDER_EXTERNAL_HOSTNAME || 'localhost').toLowerCase()
     let tenant = await WhitelabelConfigModel.findOne({ $or: [{ domain }, { domains: domain }] })
     const username = process.env.ADMIN_USERNAME || 'admin'
     if (!tenant) {
