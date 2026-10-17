@@ -42,6 +42,8 @@ Open http://localhost:4200. Angular proxies `/api` to Nest on port 3000. If you 
 
 ## Publish on the free tier
 
+Live deployment: **https://whitelabel-restaurant.onrender.com**. Admin: **https://whitelabel-restaurant.onrender.com/admin/login**. The initial username is `admin`; the generated password is stored privately in the Render service’s Environment as `ADMIN_PASSWORD`.
+
 The repository includes a multi-stage `Dockerfile` and `render.yaml` Blueprint for **one free Render web service** serving both Angular and NestJS. MongoDB lives in a separate **MongoDB Atlas Free cluster**, so reservations, content, images, and accounts survive redeploys and service sleep. Use the included `.onrender.com` address for a free URL; purchasing a custom domain is separate.
 
 1. Connect this GitHub repository to Render, and create an Atlas **Free** cluster (avoid a paid tier).
